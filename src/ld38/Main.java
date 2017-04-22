@@ -5,9 +5,12 @@
  */
 package ld38;
 
-import Entities.House;
+import Entities.Building;
 import com.sun.javafx.geom.Vec2f;
+import functions.NewBuilding;
+import gui.Button;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,7 +38,8 @@ public class Main extends BasicGame {
     
     private Vec2f mouse_select;
     
-    private List<House> buildings;
+    private List<Button> buttons;
+    private int destruction;
     
     public Main(String gameName) {
         super(gameName);
@@ -43,33 +47,60 @@ public class Main extends BasicGame {
 
     @Override
     public void init(GameContainer gc) throws SlickException {
+        
+        buttons = new LinkedList<Button>();
+        
         world = new World();
+        
         mouse_select = new Vec2f();
-        buildings = new ArrayList<House>();
+        
+        buttons.add(new Button(new Vec2f(520,100), 80, 30, Color.darkGray, Color.white, "Bonjour", new NewBuilding(mouse_select, world)));
     }
 
     @Override
     public void update(GameContainer gc, int delta) throws SlickException {
         timer += delta;
-        if(timer > 2000) {
-            world.upWater(0.05);
-            timer -= 2000;
+        if(timer > 200) {
+            world.upWater(0.001);
+            if((destruction = world.destroyBuildings()) > 0) {
+                //System.out.println(destruction + " destroyed");
+            }
+            timer -= 200;
         }
         
         Input input = gc.getInput();
         if(input.isMousePressed(0)) {
-            mouse_select.x = (int) (Mouse.getX() / tile_size);
-            mouse_select.y = (int) ((500-Mouse.getY()) / tile_size);
+            if(Mouse.getX() < 500) {
+                mouse_select.x = (int) (Mouse.getX() / tile_size);
+                mouse_select.y = (int) ((500-Mouse.getY()) / tile_size);
+        
+            }
+            if(Mouse.getX()>= 500) {
+                for (Button button : buttons) {
+                    if(button.isHovering()) {
+                        button.clicked();
+                    }
+                }
+            }
         }
+            
     }
 
     @Override
     public void render(GameContainer gc, Graphics grphcs) throws SlickException {
         world.draw(grphcs);
-        grphcs.setColor(Color.green);
+        if(world.isAccessible(mouse_select)) {
+            grphcs.setColor(Color.green);
+        } else {
+            grphcs.setColor(Color.red);
+        }
         grphcs.setLineWidth(3);
-        grphcs.drawString("Selection : " + mouse_select.x + ";" + mouse_select.y, 10, 50);
+        grphcs.drawString("Selection : " + mouse_select.x + ";" + mouse_select.y, 10, 30);
         grphcs.drawRect(mouse_select.x * tile_size, mouse_select.y * tile_size, tile_size, tile_size);
+    
+        for (Button button : buttons) {
+            button.Draw(grphcs);
+        }
     }
     
     /**

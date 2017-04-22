@@ -14,19 +14,19 @@ import org.newdawn.slick.Graphics;
  *
  * @author Number6406
  */
-public class House {
+public class Building {
     
     private Vec2f position;
     private Color color;
     
-    public House(int x, int y) {
+    public Building(int x, int y) {
         position = new Vec2f(x,y);
         color = Color.blue;
     }
     
     public void draw(Graphics g) {
-        g.fillRect(position.x, position.y, Main.tile_size, Main.tile_size);
+        g.setColor(color);
+        g.fillRect(position.x*Main.tile_size, position.y*Main.tile_size, Main.tile_size, Main.tile_size);
     }
-    
     
 }

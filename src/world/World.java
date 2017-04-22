@@ -5,6 +5,8 @@
  */
 package world;
 
+import Entities.Building;
+import com.sun.javafx.geom.Vec2f;
 import static java.lang.Math.sqrt;
 import ld38.Main;
 import org.newdawn.slick.Color;
@@ -34,6 +36,8 @@ public class World {
 
     private double[][] result = new double[world_diameter][world_diameter];
     private Rectangle[][] tiles = new Rectangle[world_diameter][world_diameter];
+    
+    private Building[][] buildings = new Building[world_diameter][world_diameter];
     
     
     public World() {
@@ -68,15 +72,41 @@ public class World {
                 }
                 g.fill(tiles[i][j]);
                 g.setColor(Color.white);
-                //g.drawString(""+(result[i][j])+"", i*tile_size, j*tile_size);
+                
+                if(buildings[i][j] != null) {
+                    buildings[i][j].draw(g);
+                }
             }
         }
+    }
+    
+    public int destroyBuildings() {
+        int destroy_counter = 0;
+        
+        for(int i=0;i<world_diameter;i++){
+            for(int j=0;j<world_diameter;j++){
+                if(buildings[i][j] != null && water_level >= result[i][j]) {
+                    buildings[i][j] = null;
+                    destroy_counter++;
+                }
+            }
+        }
+        
+        return destroy_counter;
+    }
+    
+    public boolean isAccessible(Vec2f pos) {
+        return water_level < result[(int)pos.x][(int)pos.y];
     }
     
     public void upWater(double increment) {
         
         water_level += increment;
         
+    }
+
+    public void addBuilding(Building building, int x, int y) {
+        buildings[x][y] = building;
     }
     
 }
