@@ -63,7 +63,7 @@ public class World {
         for(int i=0;i<world_diameter;i++){
             for(int j=0;j<world_diameter;j++){
                 if(water_level < result[i][j]) {
-                    g.setColor(new Color((int)(result[i][j]*255), (int)(result[i][j]*255), (int)(result[i][j]*255)));
+                    g.setColor(new Color((int)(result[i][j]*255), (int)(result[i][j]*255), (int)(result[i][j]*255), 100));
                 } else {
                     g.setColor(Color.black);
                 }

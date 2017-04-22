@@ -34,7 +34,7 @@ public class SimplexNoise {
         Random rnd=new Random(seed);
 
         for(int i=0;i<numberOfOctaves;i++){
-            octaves[i]=new SimplexNoise_octave(rnd.nextInt());
+            octaves[i]=new SimplexNoise_octave((int) (System.currentTimeMillis()*256));
 
             frequencys[i] = Math.pow(2,i);
             amplitudes[i] = Math.pow(persistence,octaves.length-i);
