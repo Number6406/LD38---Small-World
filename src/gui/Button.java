@@ -18,8 +18,10 @@ import org.newdawn.slick.Graphics;
 public class Button {
     
     private Color background;
+    private Color hover;
     private Color color;
     private String text;
+    private boolean hovered;
     
     private Vec2f pos;
     private int width;
@@ -27,11 +29,12 @@ public class Button {
     
     private Callable function;
     
-    public Button(Vec2f pos, int width, int height, Color background, Color color, String text, Callable function) {
+    public Button(Vec2f pos, int width, int height, Color background, Color hover, Color color, String text, Callable function) {
         this.pos = pos;
         this.width = width;
         this.height = height;
         this.background = background;
+        this.hover = hover;
         this.color = color;
         this.text = text;
         this.function = function;
@@ -39,7 +42,11 @@ public class Button {
     
     public void draw(Graphics g) {
         
-        g.setColor(background);
+        if(hovered) {
+            g.setColor(hover);
+        } else {
+            g.setColor(background);
+        }
         g.fillRect(pos.x, pos.y, width, height);
         g.setColor(color);
         g.drawString(text, pos.x+10, pos.y+10);
@@ -47,7 +54,8 @@ public class Button {
     }
     
     public boolean isHovering() {
-        return ((Mouse.getX() >= pos.x && Mouse.getX() <= pos.x+width) && (500-Mouse.getY() >= pos.y && 500-Mouse.getY() <= pos.y + height));
+        hovered = ((Mouse.getX() >= pos.x && Mouse.getX() <= pos.x+width) && (500-Mouse.getY() >= pos.y && 500-Mouse.getY() <= pos.y + height));
+        return hovered;
     }
     
     public void setBackground(Color background) {
@@ -56,6 +64,7 @@ public class Button {
     
     public void clicked() {
         function.call();
+        System.out.println("OUI");
     }
     
     

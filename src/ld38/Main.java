@@ -37,7 +37,6 @@ public class Main extends BasicGame {
     private boolean game_running = true;
     
     private World world;
-    private int timer;
     
     private Vec2f mouse_select;
     
@@ -57,38 +56,39 @@ public class Main extends BasicGame {
         
         mouse_select = new Vec2f(25,25);
         
-        buttons.add(new Button(new Vec2f(520,100), 120, 30, Color.darkGray, Color.white, "Build House", new NewHouse(mouse_select, world)));
-        buttons.add(new Button(new Vec2f(520,150), 120, 30, Color.darkGray, Color.white, "Build Farm", new NewFarm(mouse_select, world)));
+        buttons.add(new Button(new Vec2f(500,0), 200, 50, Color.darkGray, Color.lightGray, Color.white, "Build House", new NewHouse(mouse_select, world)));
+        buttons.add(new Button(new Vec2f(500,50), 200, 50, Color.darkGray, Color.lightGray, Color.white, "Build Farm", new NewFarm(mouse_select, world)));
+        
+        game_running = true;
     }
 
     @Override
     public void update(GameContainer gc, int delta) throws SlickException {
-        if(Ressources.getInstance().getPopulation() > 0) {
-            Updater.getInstance().update(world, delta);
-
-            Input input = gc.getInput();
+        Input input = gc.getInput();
             
-            if(input.isKeyPressed(Input.KEY_R)) {
-                init(gc);
-            }
+        if(input.isKeyPressed(Input.KEY_R)) {
+            init(gc);
+        }
+        
+        if(Ressources.getInstance().getPopulation() <= 0) {
+            game_running = false;
+        }
+        
+        if(game_running) {
+            Updater.getInstance().update(world, delta);
             
             if(input.isMousePressed(0)) {
                 if(Mouse.getX() < 500) {
                     mouse_select.x = (int) (Mouse.getX() / tile_size);
                     mouse_select.y = (int) ((500-Mouse.getY()) / tile_size);
-
                 }
-                if(Mouse.getX()>= 500) {
-                    for (Button button : buttons) {
-                        if(button.isHovering()) {
-                            button.clicked();
-                        }
+                for (Button button : buttons) {
+                    if(button.isHovering()) {
+                       button.clicked();
                     }
                 }
             }
-        } else {
-            game_running = false;
-        }      
+        }   
     }
 
     @Override
@@ -105,6 +105,7 @@ public class Main extends BasicGame {
             grphcs.drawRect(mouse_select.x * tile_size, mouse_select.y * tile_size, tile_size, tile_size);
 
             for (Button button : buttons) {
+                button.isHovering();
                 button.draw(grphcs);
             }
 
@@ -114,7 +115,7 @@ public class Main extends BasicGame {
             grphcs.drawString("Rock : " + Ressources.getInstance().getRock(), 460, 470);
         } else {
             grphcs.setColor(Color.red);
-            grphcs.drawString("Game lost", 250, 250);
+            grphcs.drawString("Game lost | [R] to restart", 250, 250);
         }
     }
     
