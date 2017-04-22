@@ -37,7 +37,6 @@ public class World {
     
     private Building[][] buildings = new Building[world_diameter][world_diameter];
     
-    
     public World() {
         for(int i=0;i<world_diameter;i++){
             for(int j=0;j<world_diameter;j++){
@@ -69,7 +68,6 @@ public class World {
                     g.setColor(Color.black);
                 }
                 g.fill(tiles[i][j]);
-                g.setColor(Color.white);
                 
                 if(buildings[i][j] != null) {
                     buildings[i][j].draw(g);
@@ -117,6 +115,30 @@ public class World {
 
     public void addBuilding(Building building, int x, int y) {
         buildings[x][y] = building;
+    }
+    
+    public int getTotalCapability() {
+        int space = 0;
+        for(int i=0;i<world_diameter;i++){
+            for(int j=0;j<world_diameter;j++){
+                if(buildings[i][j] != null) {
+                    space += buildings[i][j].getPopulation_capability();
+                }
+            }
+        }
+        return space;
+    }
+    
+    public int getTotalFoodProduction() {
+        int prod = 0;
+        for(int i=0;i<world_diameter;i++){
+            for(int j=0;j<world_diameter;j++){
+                if(buildings[i][j] != null) {
+                    prod += buildings[i][j].getFood_production();
+                }
+            }
+        }
+        return prod;
     }
     
 }

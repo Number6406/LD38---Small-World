@@ -6,20 +6,22 @@
 package functions;
 
 import Entities.Building;
+import Entities.Farm;
 import com.sun.javafx.geom.Vec2f;
 import java.util.List;
+import ld38.Ressources;
 import world.World;
 
 /**
  *
  * @author Number6406
  */
-public class NewBuilding extends Callable {
+public class NewFarm extends Callable {
     
     private Vec2f mouse_position;
     private World world;
     
-    public NewBuilding(Vec2f mouse_position, World world) {
+    public NewFarm(Vec2f mouse_position, World world) {
         super();
         this.mouse_position = mouse_position;
         this.world = world;
@@ -29,7 +31,12 @@ public class NewBuilding extends Callable {
     public void call() {
         
         if(world.isAccessible(mouse_position)) {
-            world.addBuilding(new Building((int)mouse_position.x, (int)mouse_position.y), (int)mouse_position.x, (int)mouse_position.y);
+            Farm b = new Farm((int)mouse_position.x, (int)mouse_position.y);
+            if( Ressources.getInstance().getLog() >= b.getLog_cost() && Ressources.getInstance().getRock() >= b.getRock_cost() ) {
+                world.addBuilding(b, (int)mouse_position.x, (int)mouse_position.y);
+                Ressources.getInstance().updateLog(-b.getLog_cost());
+                Ressources.getInstance().updateRock(-b.getRock_cost());
+            }
         }
         
     }

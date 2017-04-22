@@ -47,7 +47,7 @@ public class Button {
     }
     
     public boolean isHovering() {
-        return (Mouse.getX() >= pos.x && 500-Mouse.getX() <= pos.x+width) && (Mouse.getY() >= pos.y && 500-Mouse.getY() <= pos.y + height);
+        return ((Mouse.getX() >= pos.x && Mouse.getX() <= pos.x+width) && (500-Mouse.getY() >= pos.y && 500-Mouse.getY() <= pos.y + height));
     }
     
     public void setBackground(Color background) {

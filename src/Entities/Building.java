@@ -14,15 +14,37 @@ import org.newdawn.slick.Graphics;
  *
  * @author Number6406
  */
-public class Building {
+public abstract class Building {
     
-    private Vec2f position;
-    private Color color;
+    protected Vec2f position;
+    protected Color color;
+    
+    protected int log_cost;
+    protected int rock_cost;
+    protected int population_capability;
+    
+    protected int food_production;
     
     public Building(int x, int y) {
         position = new Vec2f(x,y);
-        color = Color.blue;
     }
+    
+    public int getPopulation_capability() {
+        return population_capability;
+    }
+    
+    public int getLog_cost() {
+        return log_cost;
+    }
+
+    public int getRock_cost() {
+        return rock_cost;
+    }
+    
+    public int getFood_production() {
+        return food_production;
+    }
+    
     
     public void draw(Graphics g) {
         g.setColor(color);

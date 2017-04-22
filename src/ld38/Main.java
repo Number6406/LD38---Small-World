@@ -7,7 +7,8 @@ package ld38;
 
 import Entities.Building;
 import com.sun.javafx.geom.Vec2f;
-import functions.NewBuilding;
+import functions.NewHouse;
+import functions.NewFarm;
 import gui.Button;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -33,6 +34,8 @@ public class Main extends BasicGame {
     
     public static final int tile_size = 10;
     
+    private boolean game_running = true;
+    
     private World world;
     private int timer;
     
@@ -54,55 +57,60 @@ public class Main extends BasicGame {
         
         mouse_select = new Vec2f();
         
-        buttons.add(new Button(new Vec2f(520,100), 80, 30, Color.darkGray, Color.white, "Bonjour", new NewBuilding(mouse_select, world)));
+        buttons.add(new Button(new Vec2f(520,100), 120, 30, Color.darkGray, Color.white, "Build House", new NewHouse(mouse_select, world)));
+        buttons.add(new Button(new Vec2f(520,150), 120, 30, Color.darkGray, Color.white, "Build Farm", new NewFarm(mouse_select, world)));
     }
 
     @Override
     public void update(GameContainer gc, int delta) throws SlickException {
-        timer += delta;
-        if(timer > 200) {
-            world.upWater(0.001);
-            if((destruction = world.destroyBuildings()) > 0) {
-                //System.out.println(destruction + " destroyed");
-            }
-            timer -= 200;
-        }
-        
-        Input input = gc.getInput();
-        if(input.isMousePressed(0)) {
-            if(Mouse.getX() < 500) {
-                mouse_select.x = (int) (Mouse.getX() / tile_size);
-                mouse_select.y = (int) ((500-Mouse.getY()) / tile_size);
-        
-            }
-            if(Mouse.getX()>= 500) {
-                for (Button button : buttons) {
-                    if(button.isHovering()) {
-                        button.clicked();
+        if(Ressources.getInstance().getPopulation() > 0) {
+            Updater.getInstance().update(world, delta);
+
+            Input input = gc.getInput();
+            if(input.isMousePressed(0)) {
+                if(Mouse.getX() < 500) {
+                    mouse_select.x = (int) (Mouse.getX() / tile_size);
+                    mouse_select.y = (int) ((500-Mouse.getY()) / tile_size);
+
+                }
+                if(Mouse.getX()>= 500) {
+                    for (Button button : buttons) {
+                        if(button.isHovering()) {
+                            button.clicked();
+                        }
                     }
                 }
             }
-        }
-            
+        } else {
+            game_running = false;
+        }      
     }
 
     @Override
     public void render(GameContainer gc, Graphics grphcs) throws SlickException {
-        world.draw(grphcs);
-        if(world.isAccessible(mouse_select)) {
-            grphcs.setColor(Color.green);
+        if(game_running) {
+            world.draw(grphcs);
+            if(world.isAccessible(mouse_select)) {
+                grphcs.setColor(Color.green);
+            } else {
+                grphcs.setColor(Color.red);
+            }
+            grphcs.setLineWidth(3);
+            grphcs.drawString("Selection : " + mouse_select.x + ";" + mouse_select.y, 10, 30);
+            grphcs.drawRect(mouse_select.x * tile_size, mouse_select.y * tile_size, tile_size, tile_size);
+
+            for (Button button : buttons) {
+                button.Draw(grphcs);
+            }
+
+            grphcs.drawString("Pop : " + Ressources.getInstance().getPopulation() + "/" + world.getTotalCapability(), 10, 470);
+            grphcs.drawString("Food : " + Ressources.getInstance().getFood(), 160, 470);
+            grphcs.drawString("Log : " + Ressources.getInstance().getLog(), 310, 470);
+            grphcs.drawString("Rock : " + Ressources.getInstance().getRock(), 460, 470);
         } else {
             grphcs.setColor(Color.red);
+            grphcs.drawString("Game lost", 250, 250);
         }
-        grphcs.setLineWidth(3);
-        grphcs.drawString("Selection : " + mouse_select.x + ";" + mouse_select.y, 10, 30);
-        grphcs.drawRect(mouse_select.x * tile_size, mouse_select.y * tile_size, tile_size, tile_size);
-    
-        for (Button button : buttons) {
-            button.Draw(grphcs);
-        }
-        
-        grphcs.drawString("Buildings : " + world.countBuildings(), 10, 470);
     }
     
     /**
