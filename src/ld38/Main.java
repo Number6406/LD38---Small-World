@@ -21,7 +21,8 @@ import world.World;
  */
 public class Main extends BasicGame {
     
-    World world;
+    private World world;
+    private int timer;
     
     public Main(String gameName) {
         super(gameName);
@@ -34,7 +35,11 @@ public class Main extends BasicGame {
 
     @Override
     public void update(GameContainer gc, int delta) throws SlickException {
-
+        timer += delta;
+        if(timer > 2000) {
+            world.upWater(0.05);
+            timer -= 2000;
+        }
     }
 
     @Override
@@ -50,7 +55,7 @@ public class Main extends BasicGame {
             AppGameContainer appgc;
             appgc = new AppGameContainer(new Main("Small World"));
             
-            appgc.setDisplayMode(500, 500, false);
+            appgc.setDisplayMode(700, 500, false);
             appgc.setVSync(true);
             appgc.start();
         } catch (SlickException ex) {
