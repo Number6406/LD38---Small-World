@@ -70,7 +70,7 @@ public class Main extends BasicGame {
             init(gc);
         }
         
-        if(Ressources.getInstance().getPopulation() <= 0) {
+        if(Ressources.getInstance().getPopulation() <= 0 || world.isSubmerged()) {
             game_running = false;
         }
         

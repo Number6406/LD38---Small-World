@@ -141,4 +141,15 @@ public class World {
         return prod;
     }
     
+    public boolean isSubmerged() {
+        for(int i=0;i<world_diameter;i++){
+            for(int j=0;j<world_diameter;j++){
+                if(water_level < result[i][j]) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    
 }
