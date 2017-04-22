@@ -141,6 +141,30 @@ public class World {
         return prod;
     }
     
+    public int getTotalLogProduction() {
+        int prod = 0;
+        for(int i=0;i<world_diameter;i++){
+            for(int j=0;j<world_diameter;j++){
+                if(buildings[i][j] != null) {
+                    prod += buildings[i][j].getLog_production();
+                }
+            }
+        }
+        return prod;
+    }
+    
+    public int getTotalRockProduction() {
+        int prod = 0;
+        for(int i=0;i<world_diameter;i++){
+            for(int j=0;j<world_diameter;j++){
+                if(buildings[i][j] != null) {
+                    prod += buildings[i][j].getRock_production();
+                }
+            }
+        }
+        return prod;
+    }
+    
     public boolean isSubmerged() {
         for(int i=0;i<world_diameter;i++){
             for(int j=0;j<world_diameter;j++){

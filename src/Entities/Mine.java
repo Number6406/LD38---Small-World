@@ -15,7 +15,7 @@ public class Mine extends Building {
     
     public Mine(int x, int y) {
         super(x, y);
-        this.color = Color.magenta;
+        this.color = Color.pink;
         this.log_cost = 25;
         this.rock_cost = 5;
         this.population_capability = 0;

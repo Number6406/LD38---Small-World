@@ -66,6 +66,8 @@ public class Updater {
         
         if(updateAtomicProd(delta)) {
             Ressources.getInstance().updateFood(world.getTotalFoodProduction());
+            Ressources.getInstance().updateLog(world.getTotalLogProduction());
+            Ressources.getInstance().updateRock(world.getTotalRockProduction());
         }
         
     }

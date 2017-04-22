@@ -5,7 +5,10 @@
  */
 package ld38;
 
-import Entities.Building;
+import Entities.Farm;
+import Entities.House;
+import Entities.Mine;
+import Entities.WoodmanHut;
 import com.sun.javafx.geom.Vec2f;
 import functions.NewHouse;
 import functions.NewFarm;
@@ -13,7 +16,6 @@ import functions.NewMine;
 import functions.NewWoodmanHut;
 import gui.Button;
 import gui.ButtonAddBuilding;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
@@ -45,6 +47,11 @@ public class Main extends BasicGame {
     
     private List<Button> buttons;
     
+    private House model_house;
+    private Farm model_farm;
+    private Mine model_mine;
+    private WoodmanHut model_woodmanhut;
+    
     public Main(String gameName) {
         super(gameName);
     }
@@ -59,10 +66,19 @@ public class Main extends BasicGame {
         
         mouse_select = new Vec2f(25,25);
         
-        buttons.add(new ButtonAddBuilding(new Vec2f(500,0), 200, 50, Color.darkGray, Color.lightGray, Color.white, "Build House", new NewHouse(mouse_select, world),10,10));
-        buttons.add(new ButtonAddBuilding(new Vec2f(500,50), 200, 50, Color.darkGray, Color.lightGray, Color.white, "Build Farm", new NewFarm(mouse_select, world),12,15));
-        buttons.add(new ButtonAddBuilding(new Vec2f(500,100), 200, 50, Color.darkGray, Color.lightGray, Color.white, "Build Mine", new NewMine(mouse_select, world),25,5));
-        buttons.add(new ButtonAddBuilding(new Vec2f(500,150), 200, 50, Color.darkGray, Color.lightGray, Color.white, "Build Woodman Hut", new NewWoodmanHut(mouse_select, world),10,0));
+        model_house = new House(50, 0);
+        model_farm = new Farm(50, 5);
+        model_mine = new Mine(50, 10);
+        model_woodmanhut = new WoodmanHut(50, 15);
+        
+        buttons.add(new ButtonAddBuilding(new Vec2f(500,0), 200, 50, Color.darkGray, Color.lightGray, Color.white, "Build House",
+                new NewHouse(mouse_select, world), model_house.getLog_cost(), model_house.getRock_cost()));
+        buttons.add(new ButtonAddBuilding(new Vec2f(500,50), 200, 50, Color.darkGray, Color.lightGray, Color.white, "Build Farm",
+                new NewFarm(mouse_select, world), model_farm.getLog_cost(), model_farm.getRock_cost()));
+        buttons.add(new ButtonAddBuilding(new Vec2f(500,100), 200, 50, Color.darkGray, Color.lightGray, Color.white, "Build Mine",
+                new NewMine(mouse_select, world), model_mine.getLog_cost(),model_mine.getRock_cost()));
+        buttons.add(new ButtonAddBuilding(new Vec2f(500,150), 200, 50, Color.darkGray, Color.lightGray, Color.white, "Build Woodman Hut",
+                new NewWoodmanHut(mouse_select, world), model_woodmanhut.getLog_cost(), model_woodmanhut.getRock_cost()));
         
         game_running = true;
     }
@@ -113,7 +129,13 @@ public class Main extends BasicGame {
                 button.isHovering();
                 button.draw(grphcs);
             }
+            
+            model_house.draw(grphcs);
+            model_farm.draw(grphcs);
+            model_mine.draw(grphcs);
+            model_woodmanhut.draw(grphcs);
 
+            grphcs.setColor(Color.white);
             grphcs.drawString("Pop : " + Ressources.getInstance().getPopulation() + "/" + world.getTotalCapability(), 10, 470);
             grphcs.drawString("Food : " + Ressources.getInstance().getFood(), 160, 470);
             grphcs.drawString("Log : " + Ressources.getInstance().getLog(), 310, 470);

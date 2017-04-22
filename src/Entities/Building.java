@@ -47,6 +47,14 @@ public abstract class Building {
         return food_production;
     }
     
+    public int getLog_production() {
+        return log_production;
+    }
+    
+    public int getRock_production() {
+        return rock_production;
+    }
+    
     
     public void draw(Graphics g) {
         g.setColor(color);
