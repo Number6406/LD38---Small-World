@@ -5,12 +5,19 @@
  */
 package ld38;
 
+import Entities.House;
+import com.sun.javafx.geom.Vec2f;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.lwjgl.input.Mouse;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
 import world.World;
@@ -21,8 +28,14 @@ import world.World;
  */
 public class Main extends BasicGame {
     
+    public static final int tile_size = 10;
+    
     private World world;
     private int timer;
+    
+    private Vec2f mouse_select;
+    
+    private List<House> buildings;
     
     public Main(String gameName) {
         super(gameName);
@@ -31,6 +44,8 @@ public class Main extends BasicGame {
     @Override
     public void init(GameContainer gc) throws SlickException {
         world = new World();
+        mouse_select = new Vec2f();
+        buildings = new ArrayList<House>();
     }
 
     @Override
@@ -40,11 +55,21 @@ public class Main extends BasicGame {
             world.upWater(0.05);
             timer -= 2000;
         }
+        
+        Input input = gc.getInput();
+        if(input.isMousePressed(0)) {
+            mouse_select.x = (int) (Mouse.getX() / tile_size);
+            mouse_select.y = (int) ((500-Mouse.getY()) / tile_size);
+        }
     }
 
     @Override
     public void render(GameContainer gc, Graphics grphcs) throws SlickException {
         world.draw(grphcs);
+        grphcs.setColor(Color.green);
+        grphcs.setLineWidth(3);
+        grphcs.drawString("Selection : " + mouse_select.x + ";" + mouse_select.y, 10, 50);
+        grphcs.drawRect(mouse_select.x * tile_size, mouse_select.y * tile_size, tile_size, tile_size);
     }
     
     /**

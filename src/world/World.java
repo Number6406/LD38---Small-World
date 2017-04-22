@@ -6,6 +6,7 @@
 package world;
 
 import static java.lang.Math.sqrt;
+import ld38.Main;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
@@ -25,7 +26,7 @@ public class World {
 
     private int world_diameter=50;
     
-    private int tile_size = 10;
+    private int tile_size = Main.tile_size;
     
     private int island_radius = 20;
     
