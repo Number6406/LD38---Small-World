@@ -19,11 +19,13 @@ public abstract class Building {
     protected Vec2f position;
     protected Color color;
     
-    protected int log_cost;
-    protected int rock_cost;
-    protected int population_capability;
+    protected int log_cost = 0;
+    protected int rock_cost = 0;
+    protected int population_capability = 0;
     
-    protected int food_production;
+    protected int food_production = 0;
+    protected int rock_production = 0;
+    protected int log_production = 0;
     
     public Building(int x, int y) {
         position = new Vec2f(x,y);

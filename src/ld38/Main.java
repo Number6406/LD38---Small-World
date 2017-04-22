@@ -9,7 +9,10 @@ import Entities.Building;
 import com.sun.javafx.geom.Vec2f;
 import functions.NewHouse;
 import functions.NewFarm;
+import functions.NewMine;
+import functions.NewWoodmanHut;
 import gui.Button;
+import gui.ButtonAddBuilding;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -56,8 +59,10 @@ public class Main extends BasicGame {
         
         mouse_select = new Vec2f(25,25);
         
-        buttons.add(new Button(new Vec2f(500,0), 200, 50, Color.darkGray, Color.lightGray, Color.white, "Build House", new NewHouse(mouse_select, world)));
-        buttons.add(new Button(new Vec2f(500,50), 200, 50, Color.darkGray, Color.lightGray, Color.white, "Build Farm", new NewFarm(mouse_select, world)));
+        buttons.add(new ButtonAddBuilding(new Vec2f(500,0), 200, 50, Color.darkGray, Color.lightGray, Color.white, "Build House", new NewHouse(mouse_select, world),10,10));
+        buttons.add(new ButtonAddBuilding(new Vec2f(500,50), 200, 50, Color.darkGray, Color.lightGray, Color.white, "Build Farm", new NewFarm(mouse_select, world),12,15));
+        buttons.add(new ButtonAddBuilding(new Vec2f(500,100), 200, 50, Color.darkGray, Color.lightGray, Color.white, "Build Mine", new NewMine(mouse_select, world),25,5));
+        buttons.add(new ButtonAddBuilding(new Vec2f(500,150), 200, 50, Color.darkGray, Color.lightGray, Color.white, "Build Woodman Hut", new NewWoodmanHut(mouse_select, world),10,0));
         
         game_running = true;
     }
@@ -101,7 +106,7 @@ public class Main extends BasicGame {
                 grphcs.setColor(Color.red);
             }
             grphcs.setLineWidth(3);
-            grphcs.drawString("Selection : " + mouse_select.x + ";" + mouse_select.y, 10, 30);
+            //grphcs.drawString("Selection : " + mouse_select.x + ";" + mouse_select.y, 10, 30);
             grphcs.drawRect(mouse_select.x * tile_size, mouse_select.y * tile_size, tile_size, tile_size);
 
             for (Button button : buttons) {

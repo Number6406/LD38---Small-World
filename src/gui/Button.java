@@ -17,17 +17,17 @@ import org.newdawn.slick.Graphics;
  */
 public class Button {
     
-    private Color background;
-    private Color hover;
-    private Color color;
-    private String text;
-    private boolean hovered;
+    protected Color background;
+    protected Color hover;
+    protected Color color;
+    protected String text;
+    protected boolean hovered;
     
-    private Vec2f pos;
-    private int width;
-    private int height;
+    protected Vec2f pos;
+    protected int width;
+    protected int height;
     
-    private Callable function;
+    protected Callable function;
     
     public Button(Vec2f pos, int width, int height, Color background, Color hover, Color color, String text, Callable function) {
         this.pos = pos;

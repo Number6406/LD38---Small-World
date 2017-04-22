@@ -15,7 +15,7 @@ public class Ressources {
     
     private int population = 10;
     private int food = 100;
-    private int log = 50;
+    private int log = 75;
     private int rock = 50;
     
     private Ressources() {
