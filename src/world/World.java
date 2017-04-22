@@ -27,11 +27,9 @@ public class World {
     private double yEnd=500;
 
     private int world_diameter=50;
-    
-    private int tile_size = Main.tile_size;
-    
     private int island_radius = 20;
     
+    private int tile_size = Main.tile_size;
     private double water_level = 0.1;
 
     private double[][] result = new double[world_diameter][world_diameter];
@@ -93,6 +91,18 @@ public class World {
         }
         
         return destroy_counter;
+    }
+    
+    public int countBuildings() {
+        int count = 0;
+        for(int i=0;i<world_diameter;i++){
+            for(int j=0;j<world_diameter;j++){
+                if(buildings[i][j] != null) {
+                    count++;
+                }
+            }
+        }
+        return count;
     }
     
     public boolean isAccessible(Vec2f pos) {

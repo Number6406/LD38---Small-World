@@ -101,6 +101,8 @@ public class Main extends BasicGame {
         for (Button button : buttons) {
             button.Draw(grphcs);
         }
+        
+        grphcs.drawString("Buildings : " + world.countBuildings(), 10, 470);
     }
     
     /**
