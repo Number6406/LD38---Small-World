@@ -22,12 +22,19 @@ public class Ressources {
         
     }
     
+    public void init() {
+        population = 10;
+        food = 100;
+        log = 50;
+        rock = 50;
+    }
+    
     public static Ressources getInstance() {
         return INSTANCE;
     }
     
     public void consumeFood() {
-        food -= population;
+        food = Math.max(0, food-population);
     }
     
     public void setPopulation(int population) {

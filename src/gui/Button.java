@@ -37,7 +37,7 @@ public class Button {
         this.function = function;
     }
     
-    public void Draw(Graphics g) {
+    public void draw(Graphics g) {
         
         g.setColor(background);
         g.fillRect(pos.x, pos.y, width, height);

@@ -42,7 +42,6 @@ public class Main extends BasicGame {
     private Vec2f mouse_select;
     
     private List<Button> buttons;
-    private int destruction;
     
     public Main(String gameName) {
         super(gameName);
@@ -54,8 +53,9 @@ public class Main extends BasicGame {
         buttons = new LinkedList<Button>();
         
         world = new World();
+        Ressources.getInstance().init();
         
-        mouse_select = new Vec2f();
+        mouse_select = new Vec2f(25,25);
         
         buttons.add(new Button(new Vec2f(520,100), 120, 30, Color.darkGray, Color.white, "Build House", new NewHouse(mouse_select, world)));
         buttons.add(new Button(new Vec2f(520,150), 120, 30, Color.darkGray, Color.white, "Build Farm", new NewFarm(mouse_select, world)));
@@ -67,6 +67,11 @@ public class Main extends BasicGame {
             Updater.getInstance().update(world, delta);
 
             Input input = gc.getInput();
+            
+            if(input.isKeyPressed(Input.KEY_R)) {
+                init(gc);
+            }
+            
             if(input.isMousePressed(0)) {
                 if(Mouse.getX() < 500) {
                     mouse_select.x = (int) (Mouse.getX() / tile_size);
@@ -100,7 +105,7 @@ public class Main extends BasicGame {
             grphcs.drawRect(mouse_select.x * tile_size, mouse_select.y * tile_size, tile_size, tile_size);
 
             for (Button button : buttons) {
-                button.Draw(grphcs);
+                button.draw(grphcs);
             }
 
             grphcs.drawString("Pop : " + Ressources.getInstance().getPopulation() + "/" + world.getTotalCapability(), 10, 470);

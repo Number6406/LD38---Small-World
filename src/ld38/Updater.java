@@ -21,7 +21,7 @@ public class Updater {
     private int population_feeding_updater = 2000;
     private int population_feeding_timer = 0;
     
-    private int population_growing_updater = 1000;
+    private int population_growing_updater = 5000;
     private int population_growing_timer = 0;
     
     private int production_updater = 3000;
@@ -56,8 +56,10 @@ public class Updater {
             if(world.getTotalCapability() > Ressources.getInstance().getPopulation()) {
                 if(Ressources.getInstance().getFood() > 0) {
                     Ressources.getInstance().updatePopulation(1);
+                } else {
+                    Ressources.getInstance().updatePopulation(-1);
                 }
-            } else if (world.getTotalCapability() < Ressources.getInstance().getPopulation()) {
+            } if (world.getTotalCapability() < Ressources.getInstance().getPopulation()) {
                 Ressources.getInstance().updatePopulation(-1);
             }
         }
