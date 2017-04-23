@@ -22,6 +22,7 @@ public class Button {
     protected Color color;
     protected String text;
     protected boolean hovered;
+    private int cast_key;
     
     protected Vec2f pos;
     protected int width;
@@ -29,7 +30,7 @@ public class Button {
     
     protected Callable function;
     
-    public Button(Vec2f pos, int width, int height, Color background, Color hover, Color color, String text, Callable function) {
+    public Button(Vec2f pos, int width, int height, Color background, Color hover, Color color, String text, Callable function, int cast_key) {
         this.pos = pos;
         this.width = width;
         this.height = height;
@@ -38,6 +39,11 @@ public class Button {
         this.color = color;
         this.text = text;
         this.function = function;
+        this.cast_key = cast_key;
+    }
+    
+    public int getCastKey() {
+        return cast_key;
     }
     
     public void draw(Graphics g) {

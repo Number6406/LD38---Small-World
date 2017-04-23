@@ -208,4 +208,8 @@ public class World {
         return true;
     }
     
+    public int getWorldSize() {
+        return world_diameter;
+    }
+    
 }

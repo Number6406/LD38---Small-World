@@ -79,13 +79,13 @@ public class Main extends BasicGame {
         model_woodmanhut = new WoodmanHut(50, 15);
         
         buttons.add(new ButtonAddBuilding(new Vec2f(500,0), 200, 50, Color.darkGray, Color.lightGray, Color.white, "Build House",
-                new NewHouse(mouse_select, world), model_house ));
+                new NewHouse(mouse_select, world), Input.KEY_1, model_house ));
         buttons.add(new ButtonAddBuilding(new Vec2f(500,50), 200, 50, Color.darkGray, Color.lightGray, Color.white, "Build Farm",
-                new NewFarm(mouse_select, world), model_farm));
+                new NewFarm(mouse_select, world), Input.KEY_2, model_farm));
         buttons.add(new ButtonAddBuilding(new Vec2f(500,100), 200, 50, Color.darkGray, Color.lightGray, Color.white, "Build Mine",
-                new NewMine(mouse_select, world), model_mine));
+                new NewMine(mouse_select, world), Input.KEY_3, model_mine));
         buttons.add(new ButtonAddBuilding(new Vec2f(500,150), 200, 50, Color.darkGray, Color.lightGray, Color.white, "Build Woodman's Hut",
-                new NewWoodmanHut(mouse_select, world), model_woodmanhut));
+                new NewWoodmanHut(mouse_select, world), Input.KEY_4, model_woodmanhut));
         
         game_running = true;
     }
@@ -106,6 +106,25 @@ public class Main extends BasicGame {
         if(game_running) {
             Updater.getInstance().update(delta);
             notifier.updateTimer(delta);
+            
+            if(input.isKeyDown(Input.KEY_UP) && mouse_select.y > 0) {
+                mouse_select.y--;
+            }
+            if(input.isKeyDown(Input.KEY_DOWN) && mouse_select.y < world.getWorldSize()-1) {
+                mouse_select.y++;
+            }
+            if(input.isKeyDown(Input.KEY_LEFT) && mouse_select.x > 0) {
+                mouse_select.x--;
+            }
+            if(input.isKeyDown(Input.KEY_RIGHT) && mouse_select.x < world.getWorldSize()-1) {
+                mouse_select.x++;
+            }
+            
+            for (Button button : buttons) {
+                if(input.isKeyPressed(button.getCastKey())) {
+                    button.clicked();
+                }
+            }
             
             if(input.isMousePressed(0)) {
                 if(Mouse.getX() < 500) {
@@ -130,8 +149,7 @@ public class Main extends BasicGame {
             } else {
                 grphcs.setColor(Color.red);
             }
-            grphcs.setLineWidth(3);
-            //grphcs.drawString("Selection : " + mouse_select.x + ";" + mouse_select.y, 10, 30);
+            //grphcs.drawString("Selection : " + mouse_select.x + ";" + mouse_select.y, 10, 50);
             grphcs.drawRect(mouse_select.x * tile_size, mouse_select.y * tile_size, tile_size, tile_size);
 
             for (Button button : buttons) {
@@ -152,7 +170,7 @@ public class Main extends BasicGame {
             
             grphcs.setColor(Color.green);
             grphcs.drawString("(" + Updater.getInstance().getAvailablePop() + ")", 120, 470);
-            String str;
+            
             if((Updater.getInstance().differenceFood()) > 0) {
                 grphcs.setColor(Color.green);
             } else {

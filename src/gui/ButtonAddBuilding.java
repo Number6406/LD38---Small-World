@@ -13,6 +13,7 @@ import ld38.Ressources;
 import ld38.Updater;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.TrueTypeFont;
 
 /**
@@ -24,16 +25,17 @@ public class ButtonAddBuilding extends Button {
     private static Font awtFont = new Font("", Font.BOLD, 12);
     private static TrueTypeFont font = new TrueTypeFont(awtFont, false);
     
+    
     private Color current_color = Color.white;
     
     private Building building;
     
-    public ButtonAddBuilding(Vec2f pos, int width, int height, Color background, Color hover, Color color, String text, Callable function, Building building) {
-        super(pos, width, height, background, hover, color, text, function);
+    public ButtonAddBuilding(Vec2f pos, int width, int height, Color background, Color hover, Color color, String text, Callable function, int cast_key, Building building) {
+        super(pos, width, height, background, hover, color, text, function, cast_key);
         this.building = building;
     }
     
-     public void draw(Graphics g) {
+    public void draw(Graphics g) {
         
         super.draw(g);
         
