@@ -19,6 +19,7 @@ public class Farm extends Building {
         this.log_cost = 12;
         this.rock_cost = 15;
         this.population_capability = 5;
+        this.requiered_workers = 5;
         this.food_production = 50;
     }
     

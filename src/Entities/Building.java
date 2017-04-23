@@ -21,6 +21,8 @@ public abstract class Building {
     
     protected int log_cost = 0;
     protected int rock_cost = 0;
+    protected int requiered_workers = 0;
+    
     protected int population_capability = 0;
     
     protected int food_production = 0;
@@ -53,6 +55,10 @@ public abstract class Building {
     
     public int getRock_production() {
         return rock_production;
+    }
+    
+    public int getRequiered_workers() {
+        return requiered_workers;
     }
     
     

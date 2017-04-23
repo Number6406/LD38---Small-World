@@ -9,6 +9,7 @@ import Entities.Building;
 import com.sun.javafx.geom.Vec2f;
 import static java.lang.Math.sqrt;
 import ld38.Main;
+import ld38.Ressources;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
@@ -30,12 +31,14 @@ public class World {
     private int island_radius = 20;
     
     private int tile_size = Main.tile_size;
-    private double water_level = 0.1;
+    private double water_level = 0.4;
 
     private double[][] result = new double[world_diameter][world_diameter];
     private Rectangle[][] tiles = new Rectangle[world_diameter][world_diameter];
     
     private Building[][] buildings = new Building[world_diameter][world_diameter];
+    
+    int nb_farm, nb_mine, nb_woodmanhut;
     
     public World() {
         for(int i=0;i<world_diameter;i++){
@@ -129,6 +132,34 @@ public class World {
         return space;
     }
     
+    public int getTotalWorkers() {
+        int workers = 0;
+        for(int i=0;i<world_diameter;i++){
+            for(int j=0;j<world_diameter;j++){
+                if(buildings[i][j] != null) {
+                    workers += buildings[i][j].getRequiered_workers();
+                }
+            }
+        }
+        return Math.min(workers, Ressources.getInstance().getPopulation());
+    }
+    
+    public int getTotalBuilding(Object o) {
+        int building = 0;
+        for(int i=0;i<world_diameter;i++){
+            for(int j=0;j<world_diameter;j++){
+                if(buildings[i][j] != null && (buildings[i][j].getClass().equals(o.getClass()))) {
+                    building++;
+                }
+            }
+        }
+        return building;
+    }
+    
+    public int getTotalProdBuildings() {
+        return nb_farm + nb_mine + nb_woodmanhut;
+    }
+    
     public int getTotalFoodProduction() {
         int prod = 0;
         for(int i=0;i<world_diameter;i++){
@@ -162,6 +193,7 @@ public class World {
                 }
             }
         }
+        
         return prod;
     }
     

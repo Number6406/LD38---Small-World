@@ -14,8 +14,8 @@ public class Ressources {
     private static Ressources INSTANCE = new Ressources();
     
     private int population = 10;
-    private int food = 100;
-    private int log = 75;
+    private int food = 200;
+    private int log = 90;
     private int rock = 50;
     
     private Ressources() {
@@ -24,8 +24,8 @@ public class Ressources {
     
     public void init() {
         population = 10;
-        food = 100;
-        log = 50;
+        food = 200;
+        log = 90;
         rock = 50;
     }
     

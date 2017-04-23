@@ -16,6 +16,7 @@ import functions.NewMine;
 import functions.NewWoodmanHut;
 import gui.Button;
 import gui.ButtonAddBuilding;
+import gui.Notifier;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
@@ -47,10 +48,14 @@ public class Main extends BasicGame {
     
     private List<Button> buttons;
     
-    private House model_house;
-    private Farm model_farm;
-    private Mine model_mine;
-    private WoodmanHut model_woodmanhut;
+    public static House model_house;
+    public static Farm model_farm;
+    public static Mine model_mine;
+    public static WoodmanHut model_woodmanhut;
+    
+    private int score_final = 0;
+    
+    private Notifier notifier;
     
     public Main(String gameName) {
         super(gameName);
@@ -60,9 +65,11 @@ public class Main extends BasicGame {
     public void init(GameContainer gc) throws SlickException {
         
         buttons = new LinkedList<Button>();
+        notifier = new Notifier();
         
         world = new World();
         Ressources.getInstance().init();
+        Updater.getInstance().init();
         
         mouse_select = new Vec2f(25,25);
         
@@ -140,6 +147,8 @@ public class Main extends BasicGame {
             grphcs.drawString("Food : " + Ressources.getInstance().getFood(), 160, 470);
             grphcs.drawString("Log : " + Ressources.getInstance().getLog(), 310, 470);
             grphcs.drawString("Rock : " + Ressources.getInstance().getRock(), 460, 470);
+            
+            grphcs.drawString("Timer Score : " + Updater.getInstance().getTimerScore(), 10, 30);
         } else {
             grphcs.setColor(Color.red);
             grphcs.drawString("Game lost | [R] to restart", 250, 250);

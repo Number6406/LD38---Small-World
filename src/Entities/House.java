@@ -22,6 +22,7 @@ public class House extends Building {
         this.log_cost = 10;
         this.rock_cost = 10;
         this.population_capability = 10;
+        this.requiered_workers = 0;
         this.food_production = 0;
     }    
     

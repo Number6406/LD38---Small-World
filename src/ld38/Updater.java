@@ -5,6 +5,7 @@
  */
 package ld38;
 
+import java.util.Timer;
 import world.World;
 
 /**
@@ -37,6 +38,20 @@ public class Updater {
         return INSTANCE;
     }
     
+    void init() {
+        total_timer = 0;
+        water_timer = 0;
+        population_feeding_timer = 0;
+        population_growing_timer = 0;
+        production_timer = 0;
+    }
+    
+    public int getTimerScore() {
+        if(total_timer > 0) { 
+           return (int) (Math.log(total_timer)*Math.log(total_timer));
+        } else { return 0; }
+    }
+    
     public void update(World world, int delta) {
         
         total_timer+=delta;
@@ -44,7 +59,7 @@ public class Updater {
         population_growing_timer+=delta;
         
         if(updateAtomicWater(delta)) {
-            world.upWater(0.001);
+            world.upWater(0.0001);
             world.destroyBuildings();
         }
         

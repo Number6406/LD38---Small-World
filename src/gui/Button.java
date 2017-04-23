@@ -64,7 +64,6 @@ public class Button {
     
     public void clicked() {
         function.call();
-        System.out.println("OUI");
     }
     
     

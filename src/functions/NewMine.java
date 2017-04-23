@@ -10,6 +10,7 @@ import Entities.Farm;
 import Entities.Mine;
 import com.sun.javafx.geom.Vec2f;
 import java.util.List;
+import ld38.Main;
 import ld38.Ressources;
 import world.World;
 
@@ -33,7 +34,8 @@ public class NewMine extends Callable {
         
         if(world.isAccessible(mouse_position)) {
             Mine b = new Mine((int)mouse_position.x, (int)mouse_position.y);
-            if( Ressources.getInstance().getLog() >= b.getLog_cost() && Ressources.getInstance().getRock() >= b.getRock_cost() ) {
+            if( Ressources.getInstance().getLog() >= b.getLog_cost() && Ressources.getInstance().getRock() >= b.getRock_cost() &&
+                    Ressources.getInstance().getPopulation() > world.getTotalWorkers() + Main.model_mine.getRequiered_workers() ) {
                 world.addBuilding(b, (int)mouse_position.x, (int)mouse_position.y);
                 Ressources.getInstance().updateLog(-b.getLog_cost());
                 Ressources.getInstance().updateRock(-b.getRock_cost());

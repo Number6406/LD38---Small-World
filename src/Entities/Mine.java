@@ -19,6 +19,7 @@ public class Mine extends Building {
         this.log_cost = 25;
         this.rock_cost = 5;
         this.population_capability = 0;
+        this.requiered_workers = 8;
         this.food_production = 0;
         this.rock_production = 20;
         this.log_production = 0;

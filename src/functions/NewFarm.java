@@ -9,6 +9,7 @@ import Entities.Building;
 import Entities.Farm;
 import com.sun.javafx.geom.Vec2f;
 import java.util.List;
+import ld38.Main;
 import ld38.Ressources;
 import world.World;
 
@@ -32,7 +33,8 @@ public class NewFarm extends Callable {
         
         if(world.isAccessible(mouse_position)) {
             Farm b = new Farm((int)mouse_position.x, (int)mouse_position.y);
-            if( Ressources.getInstance().getLog() >= b.getLog_cost() && Ressources.getInstance().getRock() >= b.getRock_cost() ) {
+            if( Ressources.getInstance().getLog() >= b.getLog_cost() && Ressources.getInstance().getRock() >= b.getRock_cost() &&
+                    Ressources.getInstance().getPopulation() > world.getTotalWorkers() + Main.model_farm.getRequiered_workers()) {
                 world.addBuilding(b, (int)mouse_position.x, (int)mouse_position.y);
                 Ressources.getInstance().updateLog(-b.getLog_cost());
                 Ressources.getInstance().updateRock(-b.getRock_cost());
