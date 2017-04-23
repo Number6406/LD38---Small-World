@@ -17,6 +17,7 @@ import functions.NewWoodmanHut;
 import gui.Button;
 import gui.ButtonAddBuilding;
 import gui.Notifier;
+import gui.Tiles;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
@@ -107,17 +108,23 @@ public class Main extends BasicGame {
             Updater.getInstance().update(delta);
             notifier.updateTimer(delta);
             
-            if(input.isKeyDown(Input.KEY_UP) && mouse_select.y > 0) {
-                mouse_select.y--;
-            }
-            if(input.isKeyDown(Input.KEY_DOWN) && mouse_select.y < world.getWorldSize()-1) {
-                mouse_select.y++;
-            }
-            if(input.isKeyDown(Input.KEY_LEFT) && mouse_select.x > 0) {
-                mouse_select.x--;
-            }
-            if(input.isKeyDown(Input.KEY_RIGHT) && mouse_select.x < world.getWorldSize()-1) {
-                mouse_select.x++;
+            if(Updater.getInstance().updateAtomicMove(delta)) {
+                if(input.isKeyDown(Input.KEY_UP) && mouse_select.y > 0) {
+                    mouse_select.y--;
+                    Updater.getInstance().resetMoveTimer();
+                }
+                if(input.isKeyDown(Input.KEY_DOWN) && mouse_select.y < world.getWorldSize()-1) {
+                    mouse_select.y++;
+                    Updater.getInstance().resetMoveTimer();
+                }
+                if(input.isKeyDown(Input.KEY_LEFT) && mouse_select.x > 0) {
+                    mouse_select.x--;
+                    Updater.getInstance().resetMoveTimer();
+                }
+                if(input.isKeyDown(Input.KEY_RIGHT) && mouse_select.x < world.getWorldSize()-1) {
+                    mouse_select.x++;
+                    Updater.getInstance().resetMoveTimer();
+                }
             }
             
             for (Button button : buttons) {

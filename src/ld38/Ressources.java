@@ -36,7 +36,7 @@ public class Ressources {
         icon_workers = new Image("res/workers.png");
         icon_log = new Image("res/log.png");
         icon_rock = new Image("res/rock.png");
-        icon_rock = new Image("res/food.png");
+        icon_food = new Image("res/food.png");
         population = 10;
         food = 200;
         log = 90;

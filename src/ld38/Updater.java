@@ -30,6 +30,9 @@ public class Updater {
     private int production_updater = 3000;
     private int production_timer = 0;
     
+    private int move_updater = 100;
+    private int move_timer = 0;
+    
     private static Updater INSTANCE = new Updater();
 
     private Updater() {
@@ -47,6 +50,7 @@ public class Updater {
         population_feeding_timer = 0;
         population_growing_timer = 0;
         production_timer = 0;
+        move_timer = 0;
     }
     
     public int getTimerScore() {
@@ -133,6 +137,18 @@ public class Updater {
             return true;
         }
         return false;
+    }
+    
+    public boolean updateAtomicMove(int delta) {
+        move_timer += delta;
+        if(move_timer > move_updater) {
+            return true;
+        }
+        return false;
+    }
+    
+    public void resetMoveTimer() {
+        move_timer = 0;
     }
     
 }

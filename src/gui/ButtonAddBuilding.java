@@ -60,16 +60,17 @@ public class ButtonAddBuilding extends Button {
         g.drawImage(Ressources.getInstance().icon_workers, pos.x+70, pos.y+28);
         font.drawString(pos.x + 80, pos.y + 25, "" + building.getRequiered_workers(), current_color);
         
+        
         current_color = Color.green;
         g.drawImage(Ressources.getInstance().icon_pop, pos.x+120, pos.y+18);
-        font.drawString(pos.x + 132, pos.y + 15, "+" + building.getPopulation_capability());
+        font.drawString(pos.x + 132, pos.y + 15, "+" + building.getPopulation_capability(), current_color);
         g.drawImage(Ressources.getInstance().icon_rock, pos.x+120, pos.y+33);
-        font.drawString(pos.x + 132, pos.y + 30, "+" + building.getRock_production());
+        font.drawString(pos.x + 132, pos.y + 30, "+" + building.getRock_production(), current_color);
         
-        g.drawImage(Ressources.getInstance().icon_log, pos.x+160, pos.y+18);
-        font.drawString(pos.x + 172, pos.y + 15, "+" + building.getLog_production());
+        g.drawImage(Ressources.getInstance().icon_food, pos.x+160, pos.y+18);
+        font.drawString(pos.x + 172, pos.y + 15, "+" + building.getFood_production(), current_color);
         g.drawImage(Ressources.getInstance().icon_log, pos.x+160, pos.y+33);
-        font.drawString(pos.x + 172, pos.y + 30, "+" + building.getFood_production());
+        font.drawString(pos.x + 172, pos.y + 30, "+" + building.getLog_production(), current_color);
         
     }
     

@@ -7,6 +7,7 @@ package world;
 
 import Entities.Building;
 import com.sun.javafx.geom.Vec2f;
+import gui.Tiles;
 import static java.lang.Math.sqrt;
 import ld38.Main;
 import ld38.Ressources;
@@ -20,7 +21,7 @@ import org.newdawn.slick.geom.Rectangle;
  */
 public class World {
     
-    private SimplexNoise simplexNoise=new SimplexNoise(1000,0.5,5000);
+    private SimplexNoise simplexNoise=new SimplexNoise(500,0.5, (int) (System.currentTimeMillis()*256));
     
     private double xStart=0;
     private double XEnd=500;
@@ -34,7 +35,9 @@ public class World {
     private double water_level = 0.4;
 
     private double[][] result = new double[world_diameter][world_diameter];
-    private Rectangle[][] tiles = new Rectangle[world_diameter][world_diameter];
+    private Rectangle[][] grid = new Rectangle[world_diameter][world_diameter];
+    
+    private Tiles tiles = new Tiles();
     
     private Building[][] buildings = new Building[world_diameter][world_diameter];
     
@@ -50,7 +53,7 @@ public class World {
                     includingIsland = 1;
                 }
                 result[i][j]= 0.5*(1+simplexNoise.getNoise(x,y)) * includingIsland;
-                tiles[i][j] = new Rectangle(i*tile_size, j*tile_size, tile_size, tile_size);
+                grid[i][j] = new Rectangle(i*tile_size, j*tile_size, tile_size, tile_size);
             }
         }
             
@@ -67,10 +70,21 @@ public class World {
             for(int j=0;j<world_diameter;j++){
                 if(water_level < result[i][j]) {
                     g.setColor(new Color((int)(result[i][j]*255), (int)(result[i][j]*255), (int)(result[i][j]*255), 100));
+                    if (result[i][j] > 0.8) {
+                        g.drawImage(tiles.tile_snow, i*10, j*10);
+                    } else if (result[i][j] > 0.7) {
+                        g.drawImage(tiles.tile_mountain, i*10, j*10);
+                    } else if(result[i][j] > 0.48) {
+                        g.drawImage(tiles.tile_grass, i*10, j*10);
+                    } else {
+                        g.drawImage(tiles.tile_sand, i*10, j*10);
+                    }
                 } else {
-                    g.setColor(Color.black);
+                    g.setColor(Color.transparent);
+                    g.drawImage(tiles.tile_water, i*10, j*10);
                 }
-                g.fill(tiles[i][j]);
+                
+                g.fill(grid[i][j]);
                 
                 if(buildings[i][j] != null) {
                     buildings[i][j].draw(g);
