@@ -5,6 +5,9 @@
  */
 package ld38;
 
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
+
 /**
  *
  * @author Number6406
@@ -18,11 +21,22 @@ public class Ressources {
     private int log = 90;
     private int rock = 50;
     
+    public Image icon_pop;
+    public Image icon_workers;
+    public Image icon_log;
+    public Image icon_rock;
+    public Image icon_food;
+    
     private Ressources() {
         
     }
     
-    public void init() {
+    public void init() throws SlickException {
+        icon_pop = new Image("res/pop.png");
+        icon_workers = new Image("res/workers.png");
+        icon_log = new Image("res/log.png");
+        icon_rock = new Image("res/rock.png");
+        icon_rock = new Image("res/food.png");
         population = 10;
         food = 200;
         log = 90;

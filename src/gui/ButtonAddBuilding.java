@@ -43,19 +43,33 @@ public class ButtonAddBuilding extends Button {
         if(building.getLog_cost() > Ressources.getInstance().getLog()) {
             current_color = Color.red;
         }
-        font.drawString(pos.x + 10, pos.y + 25, "Log : " + building.getLog_cost(), current_color);
+        g.drawImage(Ressources.getInstance().icon_log, pos.x+10, pos.y+28);
+        font.drawString(pos.x + 20, pos.y + 25, ""+building.getLog_cost(), current_color);
         
         current_color = Color.white;
         if(building.getRock_cost() > Ressources.getInstance().getRock()) {
             current_color = Color.red;
         }
-        font.drawString(pos.x + 60, pos.y + 25, "Rock : " + building.getRock_cost(), current_color);
+        g.drawImage(Ressources.getInstance().icon_rock, pos.x+40, pos.y+28);
+        font.drawString(pos.x + 50, pos.y + 25, "" + building.getRock_cost(), current_color);
         
         current_color = Color.white;
         if(building.getRequiered_workers() > Updater.getInstance().getAvailablePop()) {
             current_color = Color.red;
         }
-        font.drawString(pos.x + 120, pos.y + 25, "Pop : " + building.getRequiered_workers(), current_color);
+        g.drawImage(Ressources.getInstance().icon_workers, pos.x+70, pos.y+28);
+        font.drawString(pos.x + 80, pos.y + 25, "" + building.getRequiered_workers(), current_color);
+        
+        current_color = Color.green;
+        g.drawImage(Ressources.getInstance().icon_pop, pos.x+120, pos.y+18);
+        font.drawString(pos.x + 132, pos.y + 15, "+" + building.getPopulation_capability());
+        g.drawImage(Ressources.getInstance().icon_rock, pos.x+120, pos.y+33);
+        font.drawString(pos.x + 132, pos.y + 30, "+" + building.getRock_production());
+        
+        g.drawImage(Ressources.getInstance().icon_log, pos.x+160, pos.y+18);
+        font.drawString(pos.x + 172, pos.y + 15, "+" + building.getLog_production());
+        g.drawImage(Ressources.getInstance().icon_log, pos.x+160, pos.y+33);
+        font.drawString(pos.x + 172, pos.y + 30, "+" + building.getFood_production());
         
     }
     

@@ -78,13 +78,13 @@ public class Main extends BasicGame {
         model_mine = new Mine(50, 10);
         model_woodmanhut = new WoodmanHut(50, 15);
         
-        buttons.add(new ButtonAddBuilding(new Vec2f(500,0), 200, 50, Color.darkGray, Color.lightGray, Color.white, "Build House",
+        buttons.add(new ButtonAddBuilding(new Vec2f(500,0), 200, 50, Color.darkGray, Color.lightGray, Color.white, "+House",
                 new NewHouse(mouse_select, world), Input.KEY_1, model_house ));
-        buttons.add(new ButtonAddBuilding(new Vec2f(500,50), 200, 50, Color.darkGray, Color.lightGray, Color.white, "Build Farm",
+        buttons.add(new ButtonAddBuilding(new Vec2f(500,50), 200, 50, Color.darkGray, Color.lightGray, Color.white, "+Farm",
                 new NewFarm(mouse_select, world), Input.KEY_2, model_farm));
-        buttons.add(new ButtonAddBuilding(new Vec2f(500,100), 200, 50, Color.darkGray, Color.lightGray, Color.white, "Build Mine",
+        buttons.add(new ButtonAddBuilding(new Vec2f(500,100), 200, 50, Color.darkGray, Color.lightGray, Color.white, "+Mine",
                 new NewMine(mouse_select, world), Input.KEY_3, model_mine));
-        buttons.add(new ButtonAddBuilding(new Vec2f(500,150), 200, 50, Color.darkGray, Color.lightGray, Color.white, "Build Woodman's Hut",
+        buttons.add(new ButtonAddBuilding(new Vec2f(500,150), 200, 50, Color.darkGray, Color.lightGray, Color.white, "+Wood. Hut",
                 new NewWoodmanHut(mouse_select, world), Input.KEY_4, model_woodmanhut));
         
         game_running = true;
@@ -150,6 +150,7 @@ public class Main extends BasicGame {
                 grphcs.setColor(Color.red);
             }
             //grphcs.drawString("Selection : " + mouse_select.x + ";" + mouse_select.y, 10, 50);
+            grphcs.setLineWidth(3);
             grphcs.drawRect(mouse_select.x * tile_size, mouse_select.y * tile_size, tile_size, tile_size);
 
             for (Button button : buttons) {
