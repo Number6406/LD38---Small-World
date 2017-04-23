@@ -113,7 +113,7 @@ public class Main extends BasicGame {
         
         if(escapistReady = world.hasEscapist()) {
             if(Updater.getInstance().updateAtomicEscapist(delta)) {
-                score_final = Updater.getInstance().getTimerScore();
+                score_final = finalScore();
                 game_won = true;
             }    
         }
@@ -126,7 +126,7 @@ public class Main extends BasicGame {
             
 
             if(Ressources.getInstance().getPopulation() <= 0 || world.isSubmerged()) {
-                score_final = Updater.getInstance().getTimerScore();
+                score_final = finalScore();
                 game_running = false;
             }
 
@@ -256,6 +256,12 @@ public class Main extends BasicGame {
         } catch (SlickException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    private int finalScore() {
+        int timer = Updater.getInstance().getTimerScore();
+        if(game_won) return 1000 - timer - world.getTotalBuilding(model_house);
+        else return timer + world.countBuildings();
     }
     
 }
