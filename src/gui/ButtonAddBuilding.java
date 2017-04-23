@@ -5,6 +5,7 @@
  */
 package gui;
 
+import Entities.Building;
 import com.sun.javafx.geom.Vec2f;
 import functions.Callable;
 import java.awt.Font;
@@ -18,24 +19,23 @@ import org.newdawn.slick.TrueTypeFont;
  */
 public class ButtonAddBuilding extends Button {
     
-    protected int log_needed;
-    protected int rock_needed;
-    
     private static Font awtFont = new Font("", Font.BOLD, 12);
     private static TrueTypeFont font = new TrueTypeFont(awtFont, false);
     
-    public ButtonAddBuilding(Vec2f pos, int width, int height, Color background, Color hover, Color color, String text, Callable function, int log_needed, int rock_needed) {
+    private Building building;
+    
+    public ButtonAddBuilding(Vec2f pos, int width, int height, Color background, Color hover, Color color, String text, Callable function, Building building) {
         super(pos, width, height, background, hover, color, text, function);
-        this.log_needed = log_needed;
-        this.rock_needed = rock_needed;
+        this.building = building;
     }
     
      public void draw(Graphics g) {
         
         super.draw(g);
         
-        font.drawString(pos.x + 10, pos.y + 25, "Log : " + log_needed);
-        font.drawString(pos.x + 70, pos.y + 25, "Rock : " + rock_needed);
+        font.drawString(pos.x + 10, pos.y + 25, "Log : " + building.getLog_cost());
+        font.drawString(pos.x + 60, pos.y + 25, "Rock : " + building.getRock_cost());
+        font.drawString(pos.x + 120, pos.y + 25, "Pop : " + building.getRequiered_workers());
         
     }
     

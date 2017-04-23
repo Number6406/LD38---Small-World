@@ -55,7 +55,7 @@ public class Main extends BasicGame {
     
     private int score_final = 0;
     
-    private Notifier notifier;
+    public static Notifier notifier;
     
     public Main(String gameName) {
         super(gameName);
@@ -69,7 +69,7 @@ public class Main extends BasicGame {
         
         world = new World();
         Ressources.getInstance().init();
-        Updater.getInstance().init();
+        Updater.getInstance().init(world);
         
         mouse_select = new Vec2f(25,25);
         
@@ -79,13 +79,13 @@ public class Main extends BasicGame {
         model_woodmanhut = new WoodmanHut(50, 15);
         
         buttons.add(new ButtonAddBuilding(new Vec2f(500,0), 200, 50, Color.darkGray, Color.lightGray, Color.white, "Build House",
-                new NewHouse(mouse_select, world), model_house.getLog_cost(), model_house.getRock_cost()));
+                new NewHouse(mouse_select, world), model_house ));
         buttons.add(new ButtonAddBuilding(new Vec2f(500,50), 200, 50, Color.darkGray, Color.lightGray, Color.white, "Build Farm",
-                new NewFarm(mouse_select, world), model_farm.getLog_cost(), model_farm.getRock_cost()));
+                new NewFarm(mouse_select, world), model_farm));
         buttons.add(new ButtonAddBuilding(new Vec2f(500,100), 200, 50, Color.darkGray, Color.lightGray, Color.white, "Build Mine",
-                new NewMine(mouse_select, world), model_mine.getLog_cost(),model_mine.getRock_cost()));
-        buttons.add(new ButtonAddBuilding(new Vec2f(500,150), 200, 50, Color.darkGray, Color.lightGray, Color.white, "Build Woodman Hut",
-                new NewWoodmanHut(mouse_select, world), model_woodmanhut.getLog_cost(), model_woodmanhut.getRock_cost()));
+                new NewMine(mouse_select, world), model_mine));
+        buttons.add(new ButtonAddBuilding(new Vec2f(500,150), 200, 50, Color.darkGray, Color.lightGray, Color.white, "Build Woodman's Hut",
+                new NewWoodmanHut(mouse_select, world), model_woodmanhut));
         
         game_running = true;
     }
@@ -104,7 +104,8 @@ public class Main extends BasicGame {
         }
         
         if(game_running) {
-            Updater.getInstance().update(world, delta);
+            Updater.getInstance().update(delta);
+            notifier.updateTimer(delta);
             
             if(input.isMousePressed(0)) {
                 if(Mouse.getX() < 500) {
@@ -149,7 +150,23 @@ public class Main extends BasicGame {
             grphcs.drawString("Log : " + Ressources.getInstance().getLog(), 310, 470);
             grphcs.drawString("Rock : " + Ressources.getInstance().getRock(), 460, 470);
             
+            grphcs.setColor(Color.green);
+            grphcs.drawString("(" + (Ressources.getInstance().getPopulation() - world.getTotalWorkers()) + ")", 120, 470);
+            String str;
+            if((Updater.getInstance().differenceFood()) > 0) {
+                grphcs.setColor(Color.green);
+            } else {
+                grphcs.setColor(Color.red);
+            }
+            grphcs.drawString("(" + (Updater.getInstance().differenceFood()) + ")", 260, 470);
+            grphcs.setColor(Color.green);
+            grphcs.drawString("(" + world.getTotalLogProduction() + ")", 400, 470);
+            grphcs.drawString("(" + world.getTotalRockProduction() + ")", 560, 470);
+            
+            grphcs.setColor(Color.white);
             grphcs.drawString("Timer Score : " + Updater.getInstance().getTimerScore(), 10, 30);
+            
+            notifier.draw(grphcs);
         } else {
             grphcs.setColor(Color.red);
             grphcs.drawString("Game lost | [R] to restart", 250, 200);

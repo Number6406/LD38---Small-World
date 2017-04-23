@@ -5,6 +5,7 @@
  */
 package gui;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
 /**
@@ -14,16 +15,35 @@ import org.newdawn.slick.Graphics;
 public class Notifier {
     
     private String message = "";
+    private int initial_timer = 0;
+    private int timer = 0;
+    private Color color;
     
     public Notifier() {
-        
+        color = Color.white;
     }
     
     public void draw(Graphics g) {
-        g.drawString(message, 200, 10);
+        if(timer > 0) {
+            if(initial_timer - timer > 100) {
+                g.setColor(color);  
+            } else {
+                g.setColor(Color.white);
+            }
+            g.drawString(message, 200, 10);
+        }
     }
     
-    public void setMessage(String message) {
+    public void updateTimer(int delta) {
+        if(timer > 0) {
+            timer -= delta;
+        }
+    }
+    
+    public void setMessage(String message, Color color, int timer) {
+        this.color = color;
+        this.initial_timer = timer;
+        this.timer = timer;
         this.message = message;
     }
     

@@ -33,8 +33,12 @@ public class Ressources {
         return INSTANCE;
     }
     
+    public int foodConsumeValue() {
+        return population;
+    }
+    
     public void consumeFood() {
-        food = Math.max(0, food-population);
+        food = Math.max(0, food-foodConsumeValue());
     }
     
     public void setPopulation(int population) {

@@ -14,6 +14,8 @@ import world.World;
  */
 public class Updater {
     
+    private World world;
+    
     private int total_timer = 0;
     
     private int water_updater = 200;
@@ -38,7 +40,8 @@ public class Updater {
         return INSTANCE;
     }
     
-    void init() {
+    void init(World world) {
+        this.world = world;
         total_timer = 0;
         water_timer = 0;
         population_feeding_timer = 0;
@@ -52,7 +55,7 @@ public class Updater {
         } else { return 0; }
     }
     
-    public void update(World world, int delta) {
+    public void update(int delta) {
         
         total_timer+=delta;
         population_feeding_timer+=delta;
@@ -85,6 +88,11 @@ public class Updater {
             Ressources.getInstance().updateRock(world.getTotalRockProduction());
         }
         
+    }
+    
+    public int differenceFood() {
+        int diff = production_updater * population_feeding_updater;
+        return - (Ressources.getInstance().foodConsumeValue() * diff - world.getTotalFoodProduction() * diff) / diff;
     }
     
     protected boolean updateAtomicWater(int delta) {
