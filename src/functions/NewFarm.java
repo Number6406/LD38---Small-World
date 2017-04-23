@@ -33,8 +33,7 @@ public class NewFarm extends Callable {
         
         if(world.isAccessible(mouse_position)) {
             Farm b = new Farm((int)mouse_position.x, (int)mouse_position.y);
-            if( Ressources.getInstance().getLog() >= b.getLog_cost() && Ressources.getInstance().getRock() >= b.getRock_cost() &&
-                    Ressources.getInstance().getPopulation() > world.getTotalWorkers() + Main.model_farm.getRequiered_workers()) {
+            if( Ressources.getInstance().getLog() >= b.getLog_cost() && Ressources.getInstance().getRock() >= b.getRock_cost()) {
                 world.addBuilding(b, (int)mouse_position.x, (int)mouse_position.y);
                 Ressources.getInstance().updateLog(-b.getLog_cost());
                 Ressources.getInstance().updateRock(-b.getRock_cost());

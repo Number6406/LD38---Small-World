@@ -99,6 +99,7 @@ public class Main extends BasicGame {
         }
         
         if(Ressources.getInstance().getPopulation() <= 0 || world.isSubmerged()) {
+            score_final = Updater.getInstance().getTimerScore();
             game_running = false;
         }
         
@@ -151,7 +152,9 @@ public class Main extends BasicGame {
             grphcs.drawString("Timer Score : " + Updater.getInstance().getTimerScore(), 10, 30);
         } else {
             grphcs.setColor(Color.red);
-            grphcs.drawString("Game lost | [R] to restart", 250, 250);
+            grphcs.drawString("Game lost | [R] to restart", 250, 200);
+            grphcs.setColor(Color.yellow);
+            grphcs.drawString("Score : " + score_final, 275, 250);
         }
     }
     
