@@ -137,7 +137,7 @@ public class Updater {
     
     protected boolean updateAtomicProd(int delta) {
         production_timer += delta;
-        if(production_timer > production_updater) {    
+        if(production_timer > production_updater) {
             production_timer -= production_updater;
             return true;
         }
@@ -157,7 +157,7 @@ public class Updater {
     }
     
     public boolean updateAtomicEscapist(int delta) {
-        escape_timer += delta;
+        escape_timer += delta + getAvailablePop();
         if(escape_timer > escape_updater) {
             return true;
         }
@@ -169,7 +169,7 @@ public class Updater {
     }
     
     public String getEscapistProgress() {
-        return String.format("%.2f", (float)(escape_timer * 100) / escape_updater );
+        return String.format("%.2f", (float)(escape_timer * 100) / escape_updater ) + "%";
     }
     
 }

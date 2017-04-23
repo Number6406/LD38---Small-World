@@ -11,6 +11,7 @@ import Entities.House;
 import Entities.Mine;
 import Entities.WoodmanHut;
 import com.sun.javafx.geom.Vec2f;
+import functions.DeleteBuilding;
 import functions.NewEscapist;
 import functions.NewHouse;
 import functions.NewFarm;
@@ -88,16 +89,19 @@ public class Main extends BasicGame {
         model_woodmanhut = new WoodmanHut(50, 15);
         model_escapist = new Escapist(50, 20);
         
-        buttons.add(new ButtonAddBuilding(new Vec2f(500,0), 200, 50, Color.darkGray, Color.lightGray, Color.white, "+House",
+        buttons.add(new ButtonAddBuilding(new Vec2f(500,0), 200, 50, Color.darkGray, new Color(85,85,85), Color.white, "+House",
                 new NewHouse(mouse_select, world), Input.KEY_1, model_house ));
-        buttons.add(new ButtonAddBuilding(new Vec2f(500,50), 200, 50, Color.darkGray, Color.lightGray, Color.white, "+Farm",
+        buttons.add(new ButtonAddBuilding(new Vec2f(500,50), 200, 50, Color.darkGray, new Color(85,85,85), Color.white, "+Farm",
                 new NewFarm(mouse_select, world), Input.KEY_2, model_farm));
-        buttons.add(new ButtonAddBuilding(new Vec2f(500,100), 200, 50, Color.darkGray, Color.lightGray, Color.white, "+Mine",
+        buttons.add(new ButtonAddBuilding(new Vec2f(500,100), 200, 50, Color.darkGray, new Color(85,85,85), Color.white, "+Mine",
                 new NewMine(mouse_select, world), Input.KEY_3, model_mine));
-        buttons.add(new ButtonAddBuilding(new Vec2f(500,150), 200, 50, Color.darkGray, Color.lightGray, Color.white, "+Wood. Hut",
+        buttons.add(new ButtonAddBuilding(new Vec2f(500,150), 200, 50, Color.darkGray, new Color(85,85,85), Color.white, "+Wood. Hut",
                 new NewWoodmanHut(mouse_select, world), Input.KEY_4, model_woodmanhut));
-        buttons.add(new ButtonAddBuilding(new Vec2f(500,200), 200, 50, Color.darkGray, Color.lightGray, Color.white, "+Escapist",
+        buttons.add(new ButtonAddBuilding(new Vec2f(500,200), 200, 50, Color.darkGray,new Color(85,85,85), Color.white, "+Escapist",
                 new NewEscapist(mouse_select, world), Input.KEY_5, model_escapist));
+        
+        buttons.add(new Button(new Vec2f(500,250), 200, 40, new Color(180,0,0), new Color(240,36,36), Color.white, "Delete Building", 
+                new DeleteBuilding(mouse_select, world), Input.KEY_DELETE));
         
         game_running = true;
         game_won = false;

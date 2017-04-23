@@ -8,6 +8,7 @@ package world;
 import Entities.Building;
 import Entities.Escapist;
 import com.sun.javafx.geom.Vec2f;
+import gui.Notifier;
 import gui.Tiles;
 import static java.lang.Math.sqrt;
 import ld38.Main;
@@ -95,6 +96,15 @@ public class World {
         }
     }
     
+    public boolean destroyBuilding(Vec2f pos) {
+        if(buildings[(int)pos.x][(int)pos.y] != null) {
+            buildings[(int)pos.x][(int)pos.y] = null;
+            Main.notifier.setMessage("Building destroyed !", Color.green, 1000);
+            return true;
+        }
+        return false;
+    }
+    
     public int destroyBuildings() {
         int destroy_counter = 0;
         
@@ -108,6 +118,9 @@ public class World {
                     destroy_counter++;
                 }
             }
+        }
+        if(destroy_counter > 0) {
+            Main.notifier.setMessage("/!\\ " + destroy_counter + " Building(s) submerged /!\\", Color.red, 1000);
         }
         
         return destroy_counter;
@@ -139,7 +152,11 @@ public class World {
     }
     
     public boolean isAccessible(Vec2f pos) {
-        return water_level < result[(int)pos.x][(int)pos.y];
+        return (water_level < result[(int)pos.x][(int)pos.y] && buildings[(int)pos.x][(int)pos.y] == null);
+    }
+    
+    public boolean isBuilding(Vec2f pos) {
+        return buildings[(int)pos.x][(int)pos.y] != null;
     }
     
     public void upWater(double increment) {
