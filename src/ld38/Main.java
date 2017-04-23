@@ -151,7 +151,7 @@ public class Main extends BasicGame {
             grphcs.drawString("Rock : " + Ressources.getInstance().getRock(), 460, 470);
             
             grphcs.setColor(Color.green);
-            grphcs.drawString("(" + (Ressources.getInstance().getPopulation() - world.getTotalWorkers()) + ")", 120, 470);
+            grphcs.drawString("(" + Updater.getInstance().getAvailablePop() + ")", 120, 470);
             String str;
             if((Updater.getInstance().differenceFood()) > 0) {
                 grphcs.setColor(Color.green);

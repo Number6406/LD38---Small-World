@@ -95,6 +95,10 @@ public class Updater {
         return - (Ressources.getInstance().foodConsumeValue() * diff - world.getTotalFoodProduction() * diff) / diff;
     }
     
+    public int getAvailablePop() {
+        return (Ressources.getInstance().getPopulation() - world.getTotalWorkers());
+    }
+    
     protected boolean updateAtomicWater(int delta) {
         water_timer += delta;
         if(water_timer > water_updater) {    
