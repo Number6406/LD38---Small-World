@@ -60,7 +60,7 @@ public class Button {
     }
     
     public boolean isHovering() {
-        hovered = ((Mouse.getX() >= pos.x && Mouse.getX() <= pos.x+width) && (500-Mouse.getY() >= pos.y && 500-Mouse.getY() <= pos.y + height));
+        hovered = ((Mouse.getX() >= pos.x && Mouse.getX() < pos.x+width) && (500-Mouse.getY() >= pos.y && 500-Mouse.getY() < pos.y + height));
         return hovered;
     }
     
