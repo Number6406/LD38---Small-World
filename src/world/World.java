@@ -6,11 +6,13 @@
 package world;
 
 import Entities.Building;
+import Entities.Escapist;
 import com.sun.javafx.geom.Vec2f;
 import gui.Tiles;
 import static java.lang.Math.sqrt;
 import ld38.Main;
 import ld38.Ressources;
+import ld38.Updater;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
@@ -99,6 +101,9 @@ public class World {
         for(int i=0;i<world_diameter;i++){
             for(int j=0;j<world_diameter;j++){
                 if(buildings[i][j] != null && water_level >= result[i][j]) {
+                    if(buildings[i][j].getClass() == Main.model_escapist.getClass()) {
+                        Updater.getInstance().resetEscapeTimer();
+                    }
                     buildings[i][j] = null;
                     destroy_counter++;
                 }
@@ -106,6 +111,19 @@ public class World {
         }
         
         return destroy_counter;
+    }
+    
+    public boolean hasEscapist() {
+        for(int i=0;i<world_diameter;i++){
+            for(int j=0;j<world_diameter;j++){
+                if(buildings[i][j] != null) {
+                    if(buildings[i][j].getClass() == Main.model_escapist.getClass()) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
     
     public int countBuildings() {

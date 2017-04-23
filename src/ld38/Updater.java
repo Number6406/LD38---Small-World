@@ -5,6 +5,7 @@
  */
 package ld38;
 
+import java.text.DecimalFormat;
 import java.util.Timer;
 import world.World;
 
@@ -21,7 +22,7 @@ public class Updater {
     private int water_updater = 200;
     private int water_timer = 0;
     
-    private int population_feeding_updater = 2000;
+    private int population_feeding_updater = 3000;
     private int population_feeding_timer = 0;
     
     private int population_growing_updater = 5000;
@@ -32,6 +33,9 @@ public class Updater {
     
     private int move_updater = 100;
     private int move_timer = 0;
+    
+    private int escape_updater = 200000;
+    private int escape_timer = 0;
     
     private static Updater INSTANCE = new Updater();
 
@@ -51,6 +55,7 @@ public class Updater {
         population_growing_timer = 0;
         production_timer = 0;
         move_timer = 0;
+        escape_timer = 0;
     }
     
     public int getTimerScore() {
@@ -149,6 +154,22 @@ public class Updater {
     
     public void resetMoveTimer() {
         move_timer = 0;
+    }
+    
+    public boolean updateAtomicEscapist(int delta) {
+        escape_timer += delta;
+        if(escape_timer > escape_updater) {
+            return true;
+        }
+        return false;
+    }
+    
+    public void resetEscapeTimer() {
+        escape_timer = 0;
+    }
+    
+    public String getEscapistProgress() {
+        return String.format("%.2f", (float)(escape_timer * 100) / escape_updater );
     }
     
 }
