@@ -71,32 +71,32 @@ public class Updater {
         }
         
         if(updateAtomicPop(delta)) {
-            if(world.getTotalCapability() > Ressources.getInstance().getPopulation()) {
-                if(Ressources.getInstance().getFood() > 0) {
-                    Ressources.getInstance().updatePopulation(1);
+            if(world.getTotalCapability() > Resources.getInstance().getPopulation()) {
+                if(Resources.getInstance().getFood() > 0) {
+                    Resources.getInstance().updatePopulation(1);
                 } else {
-                    Ressources.getInstance().updatePopulation(-1);
+                    Resources.getInstance().updatePopulation(-1);
                 }
-            } if (world.getTotalCapability() < Ressources.getInstance().getPopulation()) {
-                Ressources.getInstance().updatePopulation(-1);
+            } if (world.getTotalCapability() < Resources.getInstance().getPopulation()) {
+                Resources.getInstance().updatePopulation(-1);
             }
         }
         
         if(updateAtomicProd(delta)) {
-            Ressources.getInstance().updateFood(world.getTotalFoodProduction());
-            Ressources.getInstance().consumeFood();
-            Ressources.getInstance().updateLog(world.getTotalLogProduction());
-            Ressources.getInstance().updateRock(world.getTotalRockProduction());
+            Resources.getInstance().updateFood(world.getTotalFoodProduction());
+            Resources.getInstance().consumeFood();
+            Resources.getInstance().updateLog(world.getTotalLogProduction());
+            Resources.getInstance().updateRock(world.getTotalRockProduction());
         }
         
     }
     
     public int differenceFood() {
-        return world.getTotalFoodProduction() - Ressources.getInstance().foodConsumeValue();
+        return world.getTotalFoodProduction() - Resources.getInstance().foodConsumeValue();
     }
     
     public int getAvailablePop() {
-        return (Ressources.getInstance().getPopulation() - world.getTotalWorkers());
+        return (Resources.getInstance().getPopulation() - world.getTotalWorkers());
     }
     
     protected boolean updateAtomicWater(int delta) {

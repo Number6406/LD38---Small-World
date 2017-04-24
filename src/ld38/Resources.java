@@ -12,9 +12,9 @@ import org.newdawn.slick.SlickException;
  *
  * @author Number6406
  */
-public class Ressources {
+public class Resources {
     
-    private static Ressources INSTANCE = new Ressources();
+    private static Resources INSTANCE = new Resources();
     
     private int population = 10;
     private int food = 200;
@@ -27,7 +27,7 @@ public class Ressources {
     public Image icon_rock;
     public Image icon_food;
     
-    private Ressources() {
+    private Resources() {
         
     }
     
@@ -43,7 +43,7 @@ public class Ressources {
         rock = 50;
     }
     
-    public static Ressources getInstance() {
+    public static Resources getInstance() {
         return INSTANCE;
     }
     

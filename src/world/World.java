@@ -12,7 +12,7 @@ import gui.Notifier;
 import gui.Tiles;
 import static java.lang.Math.sqrt;
 import ld38.Main;
-import ld38.Ressources;
+import ld38.Resources;
 import ld38.Updater;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -195,7 +195,7 @@ public class World {
                 }
             }
         }
-        return Math.min(workers, Ressources.getInstance().getPopulation());
+        return Math.min(workers, Resources.getInstance().getPopulation());
     }
     
     public int getTotalBuilding(Object o) {

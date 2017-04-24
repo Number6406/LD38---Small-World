@@ -11,7 +11,7 @@ import Entities.Farm;
 import com.sun.javafx.geom.Vec2f;
 import java.util.List;
 import ld38.Main;
-import ld38.Ressources;
+import ld38.Resources;
 import org.newdawn.slick.Color;
 import world.World;
 

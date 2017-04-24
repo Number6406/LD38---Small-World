@@ -11,7 +11,7 @@ import Entities.Farm;
 import com.sun.javafx.geom.Vec2f;
 import java.util.List;
 import ld38.Main;
-import ld38.Ressources;
+import ld38.Resources;
 import org.newdawn.slick.Color;
 import world.World;
 
@@ -35,11 +35,11 @@ public class NewEscapist extends Callable {
         
         if(world.isAccessible(mouse_position)) {
             Escapist b = new Escapist((int)mouse_position.x, (int)mouse_position.y);
-            if( Ressources.getInstance().getLog() >= b.getLog_cost() && Ressources.getInstance().getRock() >= b.getRock_cost()) {
-                if(Ressources.getInstance().getPopulation() >= world.getTotalWorkers() + Main.model_mine.getRequiered_workers()) {
+            if( Resources.getInstance().getLog() >= b.getLog_cost() && Resources.getInstance().getRock() >= b.getRock_cost()) {
+                if(Resources.getInstance().getPopulation() >= world.getTotalWorkers() + Main.model_mine.getRequiered_workers()) {
                     world.addBuilding(b, (int)mouse_position.x, (int)mouse_position.y);
-                    Ressources.getInstance().updateLog(-b.getLog_cost());
-                    Ressources.getInstance().updateRock(-b.getRock_cost());
+                    Resources.getInstance().updateLog(-b.getLog_cost());
+                    Resources.getInstance().updateRock(-b.getRock_cost());
 
                     Main.notifier.setMessage("Escape way in creation !", Color.green, 500);
                 } else {

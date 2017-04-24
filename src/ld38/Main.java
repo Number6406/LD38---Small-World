@@ -17,6 +17,7 @@ import functions.NewHouse;
 import functions.NewFarm;
 import functions.NewMine;
 import functions.NewWoodmanHut;
+import functions.ShowInfo;
 import gui.Button;
 import gui.ButtonAddBuilding;
 import gui.Notifier;
@@ -31,6 +32,7 @@ import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
@@ -45,8 +47,6 @@ public class Main extends BasicGame {
     
     public static final int windowX = 700, windowY = 530;
     public static final int tile_size = 10;
-    
-    private boolean game_running = true;
     
     private World world;
     
@@ -65,7 +65,12 @@ public class Main extends BasicGame {
     private int score_final = 0;
     
     public static Notifier notifier;
+    
+    private boolean game_lost = false;
     private boolean game_won = false;
+    private static boolean game_pause = false;
+    
+    private Image info_image;
     
     public Main(String gameName) {
         super(gameName);
@@ -74,11 +79,13 @@ public class Main extends BasicGame {
     @Override
     public void init(GameContainer gc) throws SlickException {
         
+        info_image = new Image("res/info.png");
+        
         buttons = new LinkedList<Button>();
         notifier = new Notifier();
         
         world = new World();
-        Ressources.getInstance().init();
+        Resources.getInstance().init();
         Updater.getInstance().init(world);
         
         mouse_select = new Vec2f(25,25);
@@ -89,27 +96,37 @@ public class Main extends BasicGame {
         model_woodmanhut = new WoodmanHut(50, 15);
         model_escapist = new Escapist(50, 22);
         
-        buttons.add(new ButtonAddBuilding(new Vec2f(500,0), 200, 50, Color.darkGray, new Color(85,85,85), Color.white, "+House",
+        buttons.add(new ButtonAddBuilding(new Vec2f(500,0), 200, 50, Color.darkGray, new Color(85,85,85), Color.white, "[1] +House",
                 new NewHouse(mouse_select, world), Input.KEY_1, model_house ));
-        buttons.add(new ButtonAddBuilding(new Vec2f(500,50), 200, 50, Color.darkGray, new Color(85,85,85), Color.white, "+Farm",
+        buttons.add(new ButtonAddBuilding(new Vec2f(500,50), 200, 50, Color.darkGray, new Color(85,85,85), Color.white, "[2] +Farm",
                 new NewFarm(mouse_select, world), Input.KEY_2, model_farm));
-        buttons.add(new ButtonAddBuilding(new Vec2f(500,100), 200, 50, Color.darkGray, new Color(85,85,85), Color.white, "+Mine",
+        buttons.add(new ButtonAddBuilding(new Vec2f(500,100), 200, 50, Color.darkGray, new Color(85,85,85), Color.white, "[3] +Mine",
                 new NewMine(mouse_select, world), Input.KEY_3, model_mine));
-        buttons.add(new ButtonAddBuilding(new Vec2f(500,150), 200, 50, Color.darkGray, new Color(85,85,85), Color.white, "+Wood. Hut",
+        buttons.add(new ButtonAddBuilding(new Vec2f(500,150), 200, 50, Color.darkGray, new Color(85,85,85), Color.white, "[4] +Wood. Hut",
                 new NewWoodmanHut(mouse_select, world), Input.KEY_4, model_woodmanhut));
-        buttons.add(new ButtonAddBuilding(new Vec2f(500,200), 200, 50, Color.darkGray,new Color(85,85,85), Color.white, "+Escapist",
+        buttons.add(new ButtonAddBuilding(new Vec2f(500,200), 200, 50, Color.darkGray,new Color(85,85,85), Color.white, "[5] +Escapist",
                 new NewEscapist(mouse_select, world), Input.KEY_5, model_escapist));
         
         buttons.add(new Button(new Vec2f(500,250), 200, 40, new Color(180,0,0), new Color(240,36,36), Color.white, "Delete Building", 
                 new DeleteBuilding(mouse_select, world), Input.KEY_DELETE));
+        buttons.add(new Button(new Vec2f(500,450), 200, 40, Color.darkGray, new Color(85,85,85), Color.white, "[I] Info",
+                new ShowInfo(), Input.KEY_I));
         
-        game_running = true;
+        game_pause = false;
+        game_lost = false;
         game_won = false;
     }
 
     @Override
     public void update(GameContainer gc, int delta) throws SlickException {
         Input input = gc.getInput();
+        
+        if(game_pause) {
+            if(input.isKeyDown(Input.KEY_ESCAPE)) {
+                setPause(false);
+            }
+           return; 
+        }
         
         if(escapistReady = world.hasEscapist()) {
             if(Updater.getInstance().updateAtomicEscapist(delta)) {
@@ -123,14 +140,13 @@ public class Main extends BasicGame {
         }
         
         if(!game_won) {
-            
 
-            if(Ressources.getInstance().getPopulation() <= 0 || world.isSubmerged()) {
+            if(Resources.getInstance().getPopulation() <= 0 || world.isSubmerged()) {
                 score_final = finalScore();
-                game_running = false;
+                game_lost = true;
             }
 
-            if(game_running) {
+            if(!game_lost) {
                 Updater.getInstance().update(delta);
                 notifier.updateTimer(delta);
 
@@ -181,7 +197,7 @@ public class Main extends BasicGame {
             grphcs.drawString("Game won ! | [R] to restart", 250, 200);
             grphcs.setColor(Color.yellow);
             grphcs.drawString("Score : " + score_final, 275, 250);
-        } else if(game_running) {
+        } else if(!game_lost) {
             world.draw(grphcs);
             if(world.isAccessible(mouse_select)) {
                 grphcs.setColor(Color.green);
@@ -193,7 +209,9 @@ public class Main extends BasicGame {
             grphcs.drawRect(mouse_select.x * tile_size, mouse_select.y * tile_size, tile_size, tile_size);
 
             for (Button button : buttons) {
-                button.isHovering();
+                if(!game_pause) {
+                    button.isHovering();
+                }
                 button.draw(grphcs);
             }
             
@@ -204,17 +222,17 @@ public class Main extends BasicGame {
             grphcs.fillRect(0, 490, 700, 40);
             
             grphcs.setColor(Color.white);
-            grphcs.drawImage(Ressources.getInstance().icon_pop, 10, 505);
-            grphcs.drawString("" + Ressources.getInstance().getPopulation() + "/" + world.getTotalCapability(), 20, 500);
-            grphcs.drawImage(Ressources.getInstance().icon_food, 185, 505);
-            grphcs.drawString("" + Ressources.getInstance().getFood(), 195, 500);
-            grphcs.drawImage(Ressources.getInstance().icon_log, 360, 505);
-            grphcs.drawString("" + Ressources.getInstance().getLog(), 370, 500);
-            grphcs.drawImage(Ressources.getInstance().icon_rock, 535, 505);
-            grphcs.drawString("" + Ressources.getInstance().getRock(), 545, 500);
+            grphcs.drawImage(Resources.getInstance().icon_pop, 10, 505);
+            grphcs.drawString("" + Resources.getInstance().getPopulation() + "/" + world.getTotalCapability(), 20, 500);
+            grphcs.drawImage(Resources.getInstance().icon_food, 185, 505);
+            grphcs.drawString("" + Resources.getInstance().getFood(), 195, 500);
+            grphcs.drawImage(Resources.getInstance().icon_log, 360, 505);
+            grphcs.drawString("" + Resources.getInstance().getLog(), 370, 500);
+            grphcs.drawImage(Resources.getInstance().icon_rock, 535, 505);
+            grphcs.drawString("" + Resources.getInstance().getRock(), 545, 500);
             
             grphcs.setColor(Color.green);
-            grphcs.drawImage(Ressources.getInstance().icon_workers, 90, 505);
+            grphcs.drawImage(Resources.getInstance().icon_workers, 90, 505);
             grphcs.drawString("(" + Updater.getInstance().getAvailablePop() + ")", 100, 500);
             
             if((Updater.getInstance().differenceFood()) > 0) {
@@ -238,6 +256,12 @@ public class Main extends BasicGame {
             grphcs.setColor(Color.yellow);
             grphcs.drawString("Score : " + score_final, 275, 250);
         }
+        
+        if(game_pause) {
+            grphcs.drawImage(info_image, 0, 0);
+            grphcs.setColor(Color.white);
+            grphcs.drawString("[ESC] to close", 550, 10);
+        }
     }
     
     /**
@@ -246,8 +270,8 @@ public class Main extends BasicGame {
     public static void main(String[] args) {
         try {
             AppGameContainer appgc;
-            appgc = new AppGameContainer(new Main("Small World"));
-            
+            appgc = new AppGameContainer(new Main("Escapist !"));
+            appgc.setIcon("res/icon_sm.png");
             appgc.setDisplayMode(windowX, windowY, false);
             appgc.setVSync(true);
             appgc.setVerbose(false);
@@ -262,6 +286,10 @@ public class Main extends BasicGame {
         int timer = Updater.getInstance().getTimerScore();
         if(game_won) return 1000 - timer - world.getTotalBuilding(model_house);
         else return timer + world.countBuildings();
+    }
+    
+    public static void setPause(boolean pause) {
+        game_pause = pause;
     }
     
 }
