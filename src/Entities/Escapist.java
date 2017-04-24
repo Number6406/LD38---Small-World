@@ -40,7 +40,10 @@ public class Escapist extends Building {
     @Override
     public void draw(Graphics g) {
         if(image != null) {
-            g.drawImage(image.getSprite((int)((Updater.getInstance().getEscapistProgress()/100)*image.getHorizontalCount()), 0), position.x*Main.tile_size, (position.y-2)*Main.tile_size);
+            g.drawImage(
+                    image.getSprite((int)((Updater.getInstance().getEscapistProgress()/100)*image.getHorizontalCount()), 0),
+                    position.x*Main.tile_size, (position.y-2)*Main.tile_size
+            );
         } else {
             super.draw(g);
         }
