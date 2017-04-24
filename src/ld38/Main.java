@@ -87,7 +87,7 @@ public class Main extends BasicGame {
         model_farm = new Farm(50, 5);
         model_mine = new Mine(50, 10);
         model_woodmanhut = new WoodmanHut(50, 15);
-        model_escapist = new Escapist(50, 20);
+        model_escapist = new Escapist(50, 22);
         
         buttons.add(new ButtonAddBuilding(new Vec2f(500,0), 200, 50, Color.darkGray, new Color(85,85,85), Color.white, "+House",
                 new NewHouse(mouse_select, world), Input.KEY_1, model_house ));
@@ -230,7 +230,7 @@ public class Main extends BasicGame {
             notifier.draw(grphcs);
             
             if(escapistReady) {
-                grphcs.drawString("Escaping : " + Updater.getInstance().getEscapistProgress(), 520, 350);
+                grphcs.drawString("Escaping : " + Updater.getInstance().getEscapistProgressString(), 520, 350);
             }
         } else {
             grphcs.setColor(Color.red);

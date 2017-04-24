@@ -100,8 +100,7 @@ public class Updater {
     }
     
     public int differenceFood() {
-        int diff = production_updater * population_feeding_updater;
-        return - (Ressources.getInstance().foodConsumeValue() * diff - world.getTotalFoodProduction() * diff) / diff;
+        return world.getTotalFoodProduction() - Ressources.getInstance().foodConsumeValue();
     }
     
     public int getAvailablePop() {
@@ -167,8 +166,12 @@ public class Updater {
     public void resetEscapeTimer() {
         escape_timer = 0;
     }
+
+    public float getEscapistProgress() {
+        return (escape_timer * 100) / escape_updater;
+    }
     
-    public String getEscapistProgress() {
+    public String getEscapistProgressString() {
         return String.format("%.2f", (float)(escape_timer * 100) / escape_updater ) + "%";
     }
     
