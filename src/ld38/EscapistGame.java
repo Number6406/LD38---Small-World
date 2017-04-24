@@ -185,7 +185,7 @@ public class EscapistGame extends BasicGame {
             }
 
             if (input.isMousePressed(0)) {
-                if (Mouse.getX() < 500) {
+                if (Mouse.getX() < 500 && EscapistGame.windowY - Mouse.getY() < 500) {
                     mouse_select.x = (int) (Mouse.getX() / tile_size);
                     mouse_select.y = (int) ((EscapistGame.windowY - Mouse.getY()) / tile_size);
                 }
