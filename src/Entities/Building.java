@@ -6,7 +6,7 @@
 package Entities;
 
 import com.sun.javafx.geom.Vec2f;
-import ld38.Main;
+import ld38.EscapistGame;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -65,7 +65,7 @@ public abstract class Building {
     
     public void draw(Graphics g) {
         g.setColor(color);
-        g.fillRect(position.x*Main.tile_size, position.y*Main.tile_size, Main.tile_size, Main.tile_size);
+        g.fillRect(position.x*EscapistGame.tile_size, position.y*EscapistGame.tile_size, EscapistGame.tile_size, EscapistGame.tile_size);
     }
     
 }

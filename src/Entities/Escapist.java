@@ -7,7 +7,6 @@ package Entities;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import ld38.Main;
 import ld38.Updater;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -40,9 +39,8 @@ public class Escapist extends Building {
     @Override
     public void draw(Graphics g) {
         if(image != null) {
-            g.drawImage(
-                    image.getSprite((int)((Updater.getInstance().getEscapistProgress()/100)*image.getHorizontalCount()), 0),
-                    position.x*Main.tile_size, (position.y-2)*Main.tile_size
+            g.drawImage(image.getSprite((int)((Updater.getInstance().getEscapistProgress()/100)*image.getHorizontalCount()), 0),
+                    position.x*ld38.EscapistGame.tile_size, (position.y-2)*ld38.EscapistGame.tile_size
             );
         } else {
             super.draw(g);

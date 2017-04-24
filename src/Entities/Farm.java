@@ -7,7 +7,7 @@ package Entities;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import ld38.Main;
+import ld38.EscapistGame;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -39,7 +39,7 @@ public class Farm extends Building {
     @Override
     public void draw(Graphics g) {
         if(image != null) {
-            g.drawImage(image, position.x*Main.tile_size, position.y*Main.tile_size);
+            g.drawImage(image, position.x*EscapistGame.tile_size, position.y*EscapistGame.tile_size);
         } else {
             super.draw(g);
         }

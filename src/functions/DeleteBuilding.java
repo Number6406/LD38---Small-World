@@ -10,8 +10,9 @@ import Entities.Escapist;
 import Entities.Farm;
 import com.sun.javafx.geom.Vec2f;
 import java.util.List;
-import ld38.Main;
+import ld38.EscapistGame;
 import ld38.Resources;
+import ld38.SoundBoard;
 import org.newdawn.slick.Color;
 import world.World;
 
@@ -35,12 +36,14 @@ public class DeleteBuilding extends Callable {
         
         if(world.isBuilding(mouse_position)) {
             if(world.destroyBuilding(mouse_position)) {
-                Main.notifier.setMessage("Deleted building successfully", Color.green, 1000);
+                EscapistGame.notifier.setMessage("Deleted building successfully", Color.green, 1000);
             } else {
-                Main.notifier.setMessage("Error occured", Color.red, 1000);
+                EscapistGame.notifier.setMessage("Error occured", Color.red, 1000);
+                SoundBoard.getInstance().play("error");
             }
         } else {
-            Main.notifier.setMessage("Can't delete nothing", Color.red, 1000);
+            EscapistGame.notifier.setMessage("Can't delete nothing", Color.red, 1000);
+            SoundBoard.getInstance().play("error");
         }
         
     }

@@ -67,7 +67,7 @@ public class Updater {
         
         if(updateAtomicWater(delta)) {
             world.upWater(0.0001);
-            world.destroyBuildings();
+            world.submergeBuildings();
         }
         
         if(updateAtomicPop(delta)) {

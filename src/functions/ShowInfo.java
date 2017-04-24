@@ -5,7 +5,7 @@
  */
 package functions;
 
-import ld38.Main;
+import ld38.EscapistGame;
 import org.newdawn.slick.Color;
 
 /**
@@ -21,7 +21,7 @@ public class ShowInfo extends Callable {
     @Override
     public void call() {
         
-        Main.setPause(true);
+        EscapistGame.setPause(true);
         
     }
     

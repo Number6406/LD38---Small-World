@@ -43,75 +43,75 @@ import world.World;
  *
  * @author Number6406
  */
-public class Main extends BasicGame {
-    
+public class EscapistGame extends BasicGame {
+
     public static final int windowX = 700, windowY = 530;
     public static final int tile_size = 10;
-    
+
     private World world;
-    
+
     private Vec2f mouse_select;
-    
+
     private List<Button> buttons;
-    
+
     public static House model_house;
     public static Farm model_farm;
     public static Mine model_mine;
     public static WoodmanHut model_woodmanhut;
     public static Escapist model_escapist;
-    
+
     public boolean escapistReady = false;
-        
+
     private int score_final = 0;
-    
+
     public static Notifier notifier;
-    
+
     private boolean game_lost = false;
     private boolean game_won = false;
     private static boolean game_pause = false;
-    
+
     private Image info_image;
-    
-    public Main(String gameName) {
+
+    public EscapistGame(String gameName) {
         super(gameName);
     }
 
     @Override
     public void init(GameContainer gc) throws SlickException {
-        
+
         info_image = new Image("res/info.png");
-        
+
         buttons = new LinkedList<Button>();
         notifier = new Notifier();
-        
+
         world = new World();
         Resources.getInstance().init();
         Updater.getInstance().init(world);
-        
-        mouse_select = new Vec2f(25,25);
-        
+
+        mouse_select = new Vec2f(25, 25);
+
         model_house = new House(50, 0);
         model_farm = new Farm(50, 5);
         model_mine = new Mine(50, 10);
         model_woodmanhut = new WoodmanHut(50, 15);
         model_escapist = new Escapist(50, 22);
-        
-        buttons.add(new ButtonAddBuilding(new Vec2f(500,0), 200, 50, Color.darkGray, new Color(85,85,85), Color.white, "[1] +House",
-                new NewHouse(mouse_select, world), Input.KEY_1, model_house ));
-        buttons.add(new ButtonAddBuilding(new Vec2f(500,50), 200, 50, Color.darkGray, new Color(85,85,85), Color.white, "[2] +Farm",
+
+        buttons.add(new ButtonAddBuilding(new Vec2f(500, 0), 200, 50, Color.darkGray, new Color(85, 85, 85), Color.white, "[1]House",
+                new NewHouse(mouse_select, world), Input.KEY_1, model_house));
+        buttons.add(new ButtonAddBuilding(new Vec2f(500, 50), 200, 50, Color.darkGray, new Color(85, 85, 85), Color.white, "[2]Farm",
                 new NewFarm(mouse_select, world), Input.KEY_2, model_farm));
-        buttons.add(new ButtonAddBuilding(new Vec2f(500,100), 200, 50, Color.darkGray, new Color(85,85,85), Color.white, "[3] +Mine",
+        buttons.add(new ButtonAddBuilding(new Vec2f(500, 100), 200, 50, Color.darkGray, new Color(85, 85, 85), Color.white, "[3]Mine",
                 new NewMine(mouse_select, world), Input.KEY_3, model_mine));
-        buttons.add(new ButtonAddBuilding(new Vec2f(500,150), 200, 50, Color.darkGray, new Color(85,85,85), Color.white, "[4] +Wood. Hut",
+        buttons.add(new ButtonAddBuilding(new Vec2f(500, 150), 200, 50, Color.darkGray, new Color(85, 85, 85), Color.white, "[4]Wood. Hut",
                 new NewWoodmanHut(mouse_select, world), Input.KEY_4, model_woodmanhut));
-        buttons.add(new ButtonAddBuilding(new Vec2f(500,200), 200, 50, Color.darkGray,new Color(85,85,85), Color.white, "[5] +Escapist",
+        buttons.add(new ButtonAddBuilding(new Vec2f(500, 200), 200, 50, Color.darkGray, new Color(85, 85, 85), Color.white, "[5]Escapist",
                 new NewEscapist(mouse_select, world), Input.KEY_5, model_escapist));
-        
-        buttons.add(new Button(new Vec2f(500,250), 200, 40, new Color(180,0,0), new Color(240,36,36), Color.white, "Delete Building", 
+
+        buttons.add(new Button(new Vec2f(500, 250), 200, 40, new Color(180, 0, 0), new Color(240, 36, 36), Color.white, "Delete Building",
                 new DeleteBuilding(mouse_select, world), Input.KEY_DELETE));
-        buttons.add(new Button(new Vec2f(500,450), 200, 40, Color.darkGray, new Color(85,85,85), Color.white, "[I] Info",
+        buttons.add(new Button(new Vec2f(500, 450), 200, 40, Color.darkGray, new Color(85, 85, 85), Color.white, "[I] Info",
                 new ShowInfo(), Input.KEY_I));
-        
+
         game_pause = false;
         game_lost = false;
         game_won = false;
@@ -120,86 +120,87 @@ public class Main extends BasicGame {
     @Override
     public void update(GameContainer gc, int delta) throws SlickException {
         Input input = gc.getInput();
-        
-        if(game_pause) {
-            if(input.isKeyDown(Input.KEY_ESCAPE)) {
+
+        if (game_pause) {
+            if (input.isKeyDown(Input.KEY_ESCAPE)) {
                 setPause(false);
             }
-           return; 
+            return;
         }
-        
-        if(escapistReady = world.hasEscapist()) {
-            if(Updater.getInstance().updateAtomicEscapist(delta)) {
-                score_final = finalScore();
-                game_won = true;
-            }    
-        }
-        
-        if(input.isKeyPressed(Input.KEY_R)) {
+
+        if (input.isKeyPressed(Input.KEY_R)) {
             init(gc);
         }
-        
-        if(!game_won) {
 
-            if(Resources.getInstance().getPopulation() <= 0 || world.isSubmerged()) {
+        if (!game_won && !game_lost) {
+
+            if (escapistReady = world.hasEscapist()) {
+                if (Updater.getInstance().updateAtomicEscapist(delta)) {
+                    score_final = finalScore();
+                    SoundBoard.getInstance().play("won");
+                    game_won = true;
+                }
+            }
+            if (Resources.getInstance().getPopulation() <= 0 || world.isSubmerged()) {
+                SoundBoard.getInstance().play("lost");
                 score_final = finalScore();
                 game_lost = true;
             }
 
-            if(!game_lost) {
-                Updater.getInstance().update(delta);
-                notifier.updateTimer(delta);
+            Updater.getInstance().update(delta);
+            notifier.updateTimer(delta);
 
-                if(Updater.getInstance().updateAtomicMove(delta)) {
-                    if(input.isKeyDown(Input.KEY_UP) && mouse_select.y > 0) {
-                        mouse_select.y--;
-                        Updater.getInstance().resetMoveTimer();
-                    }
-                    if(input.isKeyDown(Input.KEY_DOWN) && mouse_select.y < world.getWorldSize()-1) {
-                        mouse_select.y++;
-                        Updater.getInstance().resetMoveTimer();
-                    }
-                    if(input.isKeyDown(Input.KEY_LEFT) && mouse_select.x > 0) {
-                        mouse_select.x--;
-                        Updater.getInstance().resetMoveTimer();
-                    }
-                    if(input.isKeyDown(Input.KEY_RIGHT) && mouse_select.x < world.getWorldSize()-1) {
-                        mouse_select.x++;
-                        Updater.getInstance().resetMoveTimer();
-                    }
+            if (Updater.getInstance().updateAtomicMove(delta)) {
+                if (input.isKeyDown(Input.KEY_UP) && mouse_select.y > 0) {
+                    mouse_select.y--;
+                    Updater.getInstance().resetMoveTimer();
                 }
+                if (input.isKeyDown(Input.KEY_DOWN) && mouse_select.y < world.getWorldSize() - 1) {
+                    mouse_select.y++;
+                    Updater.getInstance().resetMoveTimer();
+                }
+                if (input.isKeyDown(Input.KEY_LEFT) && mouse_select.x > 0) {
+                    mouse_select.x--;
+                    Updater.getInstance().resetMoveTimer();
+                }
+                if (input.isKeyDown(Input.KEY_RIGHT) && mouse_select.x < world.getWorldSize() - 1) {
+                    mouse_select.x++;
+                    Updater.getInstance().resetMoveTimer();
+                }
+            }
 
+            for (Button button : buttons) {
+                if (input.isKeyPressed(button.getCastKey())) {
+                    button.clicked();
+                }
+            }
+
+            if (input.isMousePressed(0)) {
+                if (Mouse.getX() < 500) {
+                    mouse_select.x = (int) (Mouse.getX() / tile_size);
+                    mouse_select.y = (int) ((EscapistGame.windowY - Mouse.getY()) / tile_size);
+                }
                 for (Button button : buttons) {
-                    if(input.isKeyPressed(button.getCastKey())) {
+                    if (button.isHovering()) {
                         button.clicked();
                     }
                 }
-
-                if(input.isMousePressed(0)) {
-                    if(Mouse.getX() < 500) {
-                        mouse_select.x = (int) (Mouse.getX() / tile_size);
-                        mouse_select.y = (int) ((Main.windowY-Mouse.getY()) / tile_size);
-                    }
-                    for (Button button : buttons) {
-                        if(button.isHovering()) {
-                           button.clicked();
-                        }
-                    }
-                }
             }
-        }   
+        }
     }
 
     @Override
     public void render(GameContainer gc, Graphics grphcs) throws SlickException {
-        if(game_won) {
+        if (game_won) {
             grphcs.setColor(Color.green);
             grphcs.drawString("Game won ! | [R] to restart", 250, 200);
             grphcs.setColor(Color.yellow);
             grphcs.drawString("Score : " + score_final, 275, 250);
-        } else if(!game_lost) {
+            grphcs.setColor(Color.gray);
+            grphcs.drawString("Feel free to share the game and challenge you friends ! :)", 100, 280);
+        } else if (!game_lost) {
             world.draw(grphcs);
-            if(world.isAccessible(mouse_select)) {
+            if (world.isAccessible(mouse_select)) {
                 grphcs.setColor(Color.green);
             } else {
                 grphcs.setColor(Color.red);
@@ -209,18 +210,18 @@ public class Main extends BasicGame {
             grphcs.drawRect(mouse_select.x * tile_size, mouse_select.y * tile_size, tile_size, tile_size);
 
             for (Button button : buttons) {
-                if(!game_pause) {
+                if (!game_pause) {
                     button.isHovering();
                 }
                 button.draw(grphcs);
             }
-            
+
             grphcs.setColor(Color.white);
             grphcs.drawString("Timer Score : " + Updater.getInstance().getTimerScore(), 10, 10);
-            
+
             grphcs.setColor(Color.darkGray);
             grphcs.fillRect(0, 490, 700, 40);
-            
+
             grphcs.setColor(Color.white);
             grphcs.drawImage(Resources.getInstance().icon_pop, 10, 505);
             grphcs.drawString("" + Resources.getInstance().getPopulation() + "/" + world.getTotalCapability(), 20, 500);
@@ -230,12 +231,12 @@ public class Main extends BasicGame {
             grphcs.drawString("" + Resources.getInstance().getLog(), 370, 500);
             grphcs.drawImage(Resources.getInstance().icon_rock, 535, 505);
             grphcs.drawString("" + Resources.getInstance().getRock(), 545, 500);
-            
+
             grphcs.setColor(Color.green);
             grphcs.drawImage(Resources.getInstance().icon_workers, 90, 505);
             grphcs.drawString("(" + Updater.getInstance().getAvailablePop() + ")", 100, 500);
-            
-            if((Updater.getInstance().differenceFood()) > 0) {
+
+            if ((Updater.getInstance().differenceFood()) > 0) {
                 grphcs.setColor(Color.green);
             } else {
                 grphcs.setColor(Color.red);
@@ -244,10 +245,10 @@ public class Main extends BasicGame {
             grphcs.setColor(Color.green);
             grphcs.drawString("(" + world.getTotalLogProduction() + ")", 420, 500);
             grphcs.drawString("(" + world.getTotalRockProduction() + ")", 595, 500);
-            
+
             notifier.draw(grphcs);
-            
-            if(escapistReady) {
+
+            if (escapistReady) {
                 grphcs.drawString("Escaping : " + Updater.getInstance().getEscapistProgressString(), 520, 350);
             }
         } else {
@@ -256,21 +257,21 @@ public class Main extends BasicGame {
             grphcs.setColor(Color.yellow);
             grphcs.drawString("Score : " + score_final, 275, 250);
         }
-        
-        if(game_pause) {
+
+        if (game_pause) {
             grphcs.drawImage(info_image, 0, 0);
             grphcs.setColor(Color.white);
             grphcs.drawString("[ESC] to close", 550, 10);
         }
     }
-    
+
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         try {
             AppGameContainer appgc;
-            appgc = new AppGameContainer(new Main("Escapist !"));
+            appgc = new AppGameContainer(new EscapistGame("Escapist !"));
             appgc.setIcon("res/icon_sm.png");
             appgc.setDisplayMode(windowX, windowY, false);
             appgc.setVSync(true);
@@ -278,18 +279,21 @@ public class Main extends BasicGame {
             appgc.setShowFPS(false);
             appgc.start();
         } catch (SlickException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Escapist.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     private int finalScore() {
         int timer = Updater.getInstance().getTimerScore();
-        if(game_won) return 1000 - timer - world.getTotalBuilding(model_house);
-        else return timer + world.countBuildings();
+        if (game_won) {
+            return 1000 - timer - world.getTotalBuilding(model_house);
+        } else {
+            return timer + world.countBuildings();
+        }
     }
-    
+
     public static void setPause(boolean pause) {
         game_pause = pause;
     }
-    
+
 }

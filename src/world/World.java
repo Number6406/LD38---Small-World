@@ -11,8 +11,9 @@ import com.sun.javafx.geom.Vec2f;
 import gui.Notifier;
 import gui.Tiles;
 import static java.lang.Math.sqrt;
-import ld38.Main;
+import ld38.EscapistGame;
 import ld38.Resources;
+import ld38.SoundBoard;
 import ld38.Updater;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -35,7 +36,7 @@ public class World {
     private int world_diameter=50;
     private int island_radius = 20;
     
-    private int tile_size = Main.tile_size;
+    private int tile_size = EscapistGame.tile_size;
     
     private static double snow_level = 0.8;
     private static double mountain_level = 0.7;
@@ -104,19 +105,20 @@ public class World {
     public boolean destroyBuilding(Vec2f pos) {
         if(buildings[(int)pos.x][(int)pos.y] != null) {
             buildings[(int)pos.x][(int)pos.y] = null;
-            Main.notifier.setMessage("Building destroyed !", Color.green, 1000);
+            SoundBoard.getInstance().play("destroy");
+            EscapistGame.notifier.setMessage("Building destroyed !", Color.green, 1000);
             return true;
         }
         return false;
     }
     
-    public int destroyBuildings() {
+    public int submergeBuildings() {
         int destroy_counter = 0;
         
         for(int i=0;i<world_diameter;i++){
             for(int j=0;j<world_diameter;j++){
                 if(buildings[i][j] != null && water_level >= world_level[i][j]) {
-                    if(buildings[i][j].getClass() == Main.model_escapist.getClass()) {
+                    if(buildings[i][j].getClass() == EscapistGame.model_escapist.getClass()) {
                         Updater.getInstance().resetEscapeTimer();
                     }
                     buildings[i][j] = null;
@@ -125,7 +127,8 @@ public class World {
             }
         }
         if(destroy_counter > 0) {
-            Main.notifier.setMessage("/!\\ " + destroy_counter + " Building(s) submerged /!\\", Color.red, 1000);
+            SoundBoard.getInstance().play("submerge");
+            EscapistGame.notifier.setMessage("/!\\ " + destroy_counter + " Building(s) submerged /!\\", Color.red, 1000);
         }
         
         return destroy_counter;
@@ -135,7 +138,7 @@ public class World {
         for(int i=0;i<world_diameter;i++){
             for(int j=0;j<world_diameter;j++){
                 if(buildings[i][j] != null) {
-                    if(buildings[i][j].getClass() == Main.model_escapist.getClass()) {
+                    if(buildings[i][j].getClass() == EscapistGame.model_escapist.getClass()) {
                         return true;
                     }
                 }
