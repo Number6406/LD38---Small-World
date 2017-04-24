@@ -33,7 +33,7 @@ public class NewMine extends Callable {
     @Override
     public void call() {
         
-        if(world.isAccessible(mouse_position)) {
+        if(world.isAccessible(mouse_position) && world.canPlaceMine(mouse_position)) {
             Mine b = new Mine((int)mouse_position.x, (int)mouse_position.y);
             if( Ressources.getInstance().getLog() >= b.getLog_cost() && Ressources.getInstance().getRock() >= b.getRock_cost()) {
                 if(Ressources.getInstance().getPopulation() >= world.getTotalWorkers() + Main.model_mine.getRequiered_workers()) {

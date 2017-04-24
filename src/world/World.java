@@ -26,6 +26,7 @@ public class World {
     
     private SimplexNoise simplexNoise=new SimplexNoise(500,0.5, (int) (System.currentTimeMillis()*256));
     
+    
     private double xStart=0;
     private double XEnd=500;
     private double yStart=0;
@@ -35,9 +36,13 @@ public class World {
     private int island_radius = 20;
     
     private int tile_size = Main.tile_size;
+    
+    private static double snow_level = 0.8;
+    private static double mountain_level = 0.7;
+    private static double forest_level = 0.48;
     private double water_level = 0.4;
 
-    private double[][] result = new double[world_diameter][world_diameter];
+    private double[][] world_level = new double[world_diameter][world_diameter];
     private Rectangle[][] grid = new Rectangle[world_diameter][world_diameter];
     
     private Tiles tiles = new Tiles();
@@ -55,7 +60,7 @@ public class World {
                 if(distance(i - (world_diameter/2), j - (world_diameter / 2)) <= island_radius) {
                     includingIsland = 1;
                 }
-                result[i][j]= 0.5*(1+simplexNoise.getNoise(x,y)) * includingIsland;
+                world_level[i][j]= 0.5*(1+simplexNoise.getNoise(x,y)) * includingIsland;
                 grid[i][j] = new Rectangle(i*tile_size, j*tile_size, tile_size, tile_size);
             }
         }
@@ -71,13 +76,13 @@ public class World {
     public void draw(Graphics g) {
         for(int i=0;i<world_diameter;i++){
             for(int j=0;j<world_diameter;j++){
-                if(water_level < result[i][j]) {
-                    g.setColor(new Color((int)(result[i][j]*255), (int)(result[i][j]*255), (int)(result[i][j]*255), 100));
-                    if (result[i][j] > 0.8) {
+                if(water_level < world_level[i][j]) {
+                    g.setColor(new Color((int)(world_level[i][j]*255), (int)(world_level[i][j]*255), (int)(world_level[i][j]*255), 100));
+                    if (world_level[i][j] > snow_level) {
                         g.drawImage(tiles.tile_snow, i*10, j*10);
-                    } else if (result[i][j] > 0.7) {
+                    } else if (world_level[i][j] > mountain_level) {
                         g.drawImage(tiles.tile_mountain, i*10, j*10);
-                    } else if(result[i][j] > 0.48) {
+                    } else if(world_level[i][j] > forest_level) {
                         g.drawImage(tiles.tile_grass, i*10, j*10);
                     } else {
                         g.drawImage(tiles.tile_sand, i*10, j*10);
@@ -110,7 +115,7 @@ public class World {
         
         for(int i=0;i<world_diameter;i++){
             for(int j=0;j<world_diameter;j++){
-                if(buildings[i][j] != null && water_level >= result[i][j]) {
+                if(buildings[i][j] != null && water_level >= world_level[i][j]) {
                     if(buildings[i][j].getClass() == Main.model_escapist.getClass()) {
                         Updater.getInstance().resetEscapeTimer();
                     }
@@ -152,7 +157,7 @@ public class World {
     }
     
     public boolean isAccessible(Vec2f pos) {
-        return (water_level < result[(int)pos.x][(int)pos.y] && buildings[(int)pos.x][(int)pos.y] == null);
+        return (water_level < world_level[(int)pos.x][(int)pos.y] && buildings[(int)pos.x][(int)pos.y] == null);
     }
     
     public boolean isBuilding(Vec2f pos) {
@@ -249,7 +254,7 @@ public class World {
     public boolean isSubmerged() {
         for(int i=0;i<world_diameter;i++){
             for(int j=0;j<world_diameter;j++){
-                if(water_level < result[i][j]) {
+                if(water_level < world_level[i][j]) {
                     return false;
                 }
             }
@@ -259,6 +264,18 @@ public class World {
     
     public int getWorldSize() {
         return world_diameter;
+    }
+
+    public boolean canPlaceWoodmansHut(Vec2f mouse_position) {
+        return world_level[(int)mouse_position.x][(int)mouse_position.y] >= forest_level && world_level[(int)mouse_position.x][(int)mouse_position.y] < mountain_level;
+    }
+    
+    public boolean canPlaceMine(Vec2f mouse_position) {
+        return world_level[(int)mouse_position.x][(int)mouse_position.y] >= mountain_level && world_level[(int)mouse_position.x][(int)mouse_position.y] < snow_level;
+    }
+    
+    public boolean canPlaceFarm(Vec2f mouse_position) {
+        return world_level[(int)mouse_position.x][(int)mouse_position.y] >= forest_level && world_level[(int)mouse_position.x][(int)mouse_position.y] < mountain_level;
     }
     
 }

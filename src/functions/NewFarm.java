@@ -32,7 +32,7 @@ public class NewFarm extends Callable {
     @Override
     public void call() {
         
-        if(world.isAccessible(mouse_position)) {
+        if(world.isAccessible(mouse_position) && world.canPlaceFarm(mouse_position)) {
             Farm b = new Farm((int)mouse_position.x, (int)mouse_position.y);
             if( Ressources.getInstance().getLog() >= b.getLog_cost() && Ressources.getInstance().getRock() >= b.getRock_cost()) {
                 world.addBuilding(b, (int)mouse_position.x, (int)mouse_position.y);

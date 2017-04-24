@@ -31,7 +31,7 @@ public class NewWoodmanHut extends Callable {
     @Override
     public void call() {
         
-        if(world.isAccessible(mouse_position)) {
+        if(world.isAccessible(mouse_position) && world.canPlaceWoodmansHut(mouse_position)) {
             WoodmanHut b = new WoodmanHut((int)mouse_position.x, (int)mouse_position.y);
             if( Ressources.getInstance().getLog() >= b.getLog_cost() && Ressources.getInstance().getRock() >= b.getRock_cost()) {
                 if(Ressources.getInstance().getPopulation() >= world.getTotalWorkers() + Main.model_woodmanhut.getRequiered_workers()) {
