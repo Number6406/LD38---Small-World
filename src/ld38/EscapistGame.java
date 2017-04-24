@@ -68,6 +68,7 @@ public class EscapistGame extends BasicGame {
 
     private boolean game_lost = false;
     private boolean game_won = false;
+    private static boolean game_info = false;
     private static boolean game_pause = false;
 
     private Image info_image;
@@ -112,7 +113,7 @@ public class EscapistGame extends BasicGame {
         buttons.add(new Button(new Vec2f(500, 450), 200, 40, Color.darkGray, new Color(85, 85, 85), Color.white, "[I] Info",
                 new ShowInfo(), Input.KEY_I));
 
-        game_pause = false;
+        game_info = false;
         game_lost = false;
         game_won = false;
     }
@@ -120,10 +121,18 @@ public class EscapistGame extends BasicGame {
     @Override
     public void update(GameContainer gc, int delta) throws SlickException {
         Input input = gc.getInput();
+        
+        if(input.isKeyPressed(Input.KEY_P)) {
+            game_pause = !game_pause;
+        }
+        
+        if(game_pause) {
+            return;
+        }
 
-        if (game_pause) {
+        if (game_info) {
             if (input.isKeyDown(Input.KEY_ESCAPE)) {
-                setPause(false);
+                setInfoPause(false);
             }
             return;
         }
@@ -197,7 +206,7 @@ public class EscapistGame extends BasicGame {
             grphcs.setColor(Color.yellow);
             grphcs.drawString("Score : " + score_final, 275, 250);
             grphcs.setColor(Color.gray);
-            grphcs.drawString("Feel free to share the game and challenge you friends ! :)", 100, 280);
+            grphcs.drawString("Feel free to share the game and challenge your friends ! :)", 100, 280);
         } else if (!game_lost) {
             world.draw(grphcs);
             if (world.isAccessible(mouse_select)) {
@@ -210,7 +219,7 @@ public class EscapistGame extends BasicGame {
             grphcs.drawRect(mouse_select.x * tile_size, mouse_select.y * tile_size, tile_size, tile_size);
 
             for (Button button : buttons) {
-                if (!game_pause) {
+                if (!game_info || !game_pause) {
                     button.isHovering();
                 }
                 button.draw(grphcs);
@@ -258,7 +267,7 @@ public class EscapistGame extends BasicGame {
             grphcs.drawString("Score : " + score_final, 275, 250);
         }
 
-        if (game_pause) {
+        if (game_info) {
             grphcs.drawImage(info_image, 0, 0);
             grphcs.setColor(Color.white);
             grphcs.drawString("[ESC] to close", 550, 10);
@@ -292,8 +301,8 @@ public class EscapistGame extends BasicGame {
         }
     }
 
-    public static void setPause(boolean pause) {
-        game_pause = pause;
+    public static void setInfoPause(boolean pause) {
+        game_info = pause;
     }
 
 }

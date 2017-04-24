@@ -21,7 +21,7 @@ public class ShowInfo extends Callable {
     @Override
     public void call() {
         
-        EscapistGame.setPause(true);
+        EscapistGame.setInfoPause(true);
         
     }
     
