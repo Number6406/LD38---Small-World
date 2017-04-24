@@ -269,6 +269,7 @@ public class EscapistGame extends BasicGame {
             notifier.draw(grphcs);
 
             if (escapistReady) {
+                grphcs.setColor(Color.green);
                 grphcs.drawString("Escaping : " + Updater.getInstance().getEscapistProgressString(), 520, 350);
             }
             
