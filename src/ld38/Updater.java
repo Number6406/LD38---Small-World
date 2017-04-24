@@ -22,9 +22,6 @@ public class Updater {
     private int water_updater = 200;
     private int water_timer = 0;
     
-    private int population_feeding_updater = 3000;
-    private int population_feeding_timer = 0;
-    
     private int population_growing_updater = 5000;
     private int population_growing_timer = 0;
     
@@ -51,7 +48,6 @@ public class Updater {
         this.world = world;
         total_timer = 0;
         water_timer = 0;
-        population_feeding_timer = 0;
         population_growing_timer = 0;
         production_timer = 0;
         move_timer = 0;
@@ -67,16 +63,11 @@ public class Updater {
     public void update(int delta) {
         
         total_timer+=delta;
-        population_feeding_timer+=delta;
         population_growing_timer+=delta;
         
         if(updateAtomicWater(delta)) {
             world.upWater(0.0001);
             world.destroyBuildings();
-        }
-        
-        if(updateAtomicFood(delta)) {
-            Ressources.getInstance().consumeFood();
         }
         
         if(updateAtomicPop(delta)) {
@@ -93,6 +84,7 @@ public class Updater {
         
         if(updateAtomicProd(delta)) {
             Ressources.getInstance().updateFood(world.getTotalFoodProduction());
+            Ressources.getInstance().consumeFood();
             Ressources.getInstance().updateLog(world.getTotalLogProduction());
             Ressources.getInstance().updateRock(world.getTotalRockProduction());
         }
@@ -111,15 +103,6 @@ public class Updater {
         water_timer += delta;
         if(water_timer > water_updater) {    
             water_timer -= water_updater;
-            return true;
-        }
-        return false;
-    }
-    
-    protected boolean updateAtomicFood(int delta) {
-        population_feeding_timer += delta;
-        if(population_feeding_timer > population_feeding_updater) {    
-            population_feeding_timer -= population_feeding_updater;
             return true;
         }
         return false;
