@@ -17,6 +17,7 @@ import functions.NewHouse;
 import functions.NewFarm;
 import functions.NewMine;
 import functions.NewWoodmanHut;
+import functions.PauseGame;
 import functions.ShowInfo;
 import gui.Button;
 import gui.ButtonAddBuilding;
@@ -72,6 +73,7 @@ public class EscapistGame extends BasicGame {
     private static boolean game_pause = false;
 
     private Image info_image;
+    private Image pause_image;
 
     public EscapistGame(String gameName) {
         super(gameName);
@@ -81,6 +83,7 @@ public class EscapistGame extends BasicGame {
     public void init(GameContainer gc) throws SlickException {
 
         info_image = new Image("res/info.png");
+        pause_image = new Image("res/pause.png");
 
         buttons = new LinkedList<Button>();
         notifier = new Notifier();
@@ -110,8 +113,10 @@ public class EscapistGame extends BasicGame {
 
         buttons.add(new Button(new Vec2f(500, 250), 200, 40, new Color(180, 0, 0), new Color(240, 36, 36), Color.white, "Delete Building",
                 new DeleteBuilding(mouse_select, world), Input.KEY_DELETE));
-        buttons.add(new Button(new Vec2f(500, 450), 200, 40, Color.darkGray, new Color(85, 85, 85), Color.white, "[I] Info",
+        buttons.add(new Button(new Vec2f(500, 450), 200, 40, Color.darkGray, new Color(85, 85, 85), Color.white, "[I] Info / Help",
                 new ShowInfo(), Input.KEY_I));
+        buttons.add(new Button(new Vec2f(500, 410), 200, 40, Color.darkGray, new Color(85, 85, 85), Color.white, "[P] Pause Game",
+                new PauseGame(), Input.KEY_P));
 
         game_info = false;
         game_lost = false;
@@ -122,38 +127,44 @@ public class EscapistGame extends BasicGame {
     public void update(GameContainer gc, int delta) throws SlickException {
         Input input = gc.getInput();
         
-        if(input.isKeyPressed(Input.KEY_P)) {
+        if(input.isKeyPressed(Input.KEY_P) && !game_info) {
             game_pause = !game_pause;
         }
         
         if(game_pause) {
+            input.clearControlPressedRecord();
+            input.clearKeyPressedRecord();
+            input.clearMousePressedRecord();
             return;
         }
-
+        
         if (game_info) {
             if (input.isKeyDown(Input.KEY_ESCAPE)) {
                 setInfoPause(false);
             }
+            input.clearControlPressedRecord();
+            input.clearKeyPressedRecord();
+            input.clearMousePressedRecord();
             return;
         }
 
-        if (input.isKeyPressed(Input.KEY_R)) {
+        if (input.isKeyPressed(Input.KEY_R) && !game_info && !game_pause) {
             init(gc);
         }
 
-        if (!game_won && !game_lost) {
-
+        if (!game_won && !game_lost && !game_pause && !game_info) {
+            
             if (escapistReady = world.hasEscapist()) {
                 if (Updater.getInstance().updateAtomicEscapist(delta)) {
-                    score_final = finalScore();
                     SoundBoard.getInstance().play("won");
                     game_won = true;
+                    score_final = finalScore();
                 }
             }
             if (Resources.getInstance().getPopulation() <= 0 || world.isSubmerged()) {
                 SoundBoard.getInstance().play("lost");
-                score_final = finalScore();
                 game_lost = true;
+                score_final = finalScore();
             }
 
             Updater.getInstance().update(delta);
@@ -219,7 +230,7 @@ public class EscapistGame extends BasicGame {
             grphcs.drawRect(mouse_select.x * tile_size, mouse_select.y * tile_size, tile_size, tile_size);
 
             for (Button button : buttons) {
-                if (!game_info || !game_pause) {
+                if (!game_info && !game_pause) {
                     button.isHovering();
                 }
                 button.draw(grphcs);
@@ -260,17 +271,22 @@ public class EscapistGame extends BasicGame {
             if (escapistReady) {
                 grphcs.drawString("Escaping : " + Updater.getInstance().getEscapistProgressString(), 520, 350);
             }
+            
+            if (game_info) {
+                grphcs.drawImage(info_image, 0, 0);
+                grphcs.setColor(Color.white);
+                grphcs.drawString("[ESC] to close", 550, 10);
+            }
+            
+            if(game_pause) {
+                grphcs.drawImage(pause_image, 0, 0);
+            }
+            
         } else {
             grphcs.setColor(Color.red);
             grphcs.drawString("Game lost | [R] to restart", 250, 200);
             grphcs.setColor(Color.yellow);
             grphcs.drawString("Score : " + score_final, 275, 250);
-        }
-
-        if (game_info) {
-            grphcs.drawImage(info_image, 0, 0);
-            grphcs.setColor(Color.white);
-            grphcs.drawString("[ESC] to close", 550, 10);
         }
     }
 
@@ -304,5 +320,9 @@ public class EscapistGame extends BasicGame {
     public static void setInfoPause(boolean pause) {
         game_info = pause;
     }
-
+    
+    public static void setPause(boolean pause) {
+        game_pause = pause;
+    }
+    
 }

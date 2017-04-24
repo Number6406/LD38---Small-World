@@ -12,15 +12,15 @@ import org.newdawn.slick.Color;
  *
  * @author Number6406
  */
-public class ShowInfo extends Callable {
+public class PauseGame extends Callable {
     
-    public ShowInfo() {
+    public PauseGame() {
         super();
     }
     
     @Override
     public void call() {
-        EscapistGame.setInfoPause(true);
+        EscapistGame.setPause(true);
     }
     
 }
