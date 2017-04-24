@@ -9,6 +9,7 @@ import com.sun.javafx.geom.Vec2f;
 import ld38.Main;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 
 /**
  *
