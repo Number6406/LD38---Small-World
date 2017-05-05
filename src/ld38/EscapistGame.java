@@ -156,15 +156,17 @@ public class EscapistGame extends BasicGame {
             
             if (escapistReady = world.hasEscapist()) {
                 if (Updater.getInstance().updateAtomicEscapist(delta)) {
-                    SoundBoard.getInstance().play("won");
                     game_won = true;
+                    SoundBoard.getInstance().play("won");
                     score_final = finalScore();
+                    return;
                 }
             }
             if (Resources.getInstance().getPopulation() <= 0 || world.isSubmerged()) {
-                SoundBoard.getInstance().play("lost");
                 game_lost = true;
+                SoundBoard.getInstance().play("lost");
                 score_final = finalScore();
+                return;
             }
 
             Updater.getInstance().update(delta);
