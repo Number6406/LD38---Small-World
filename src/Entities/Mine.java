@@ -5,7 +5,13 @@
  */
 package Entities;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import ld38.EscapistGame;
 import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 
 /**
  *
@@ -13,8 +19,15 @@ import org.newdawn.slick.Color;
  */
 public class Mine extends Building {
     
+    private static Image image;
+    
     public Mine(int x, int y) {
         super(x, y);
+        try {
+            this.image = new Image("res/build_mine.png");
+        } catch (SlickException ex) {
+            Logger.getLogger(House.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.color = Color.pink;
         this.log_cost = 25;
         this.rock_cost = 5;
@@ -23,6 +36,15 @@ public class Mine extends Building {
         this.food_production = 0;
         this.rock_production = 20;
         this.log_production = 0;
+    }
+    
+    @Override
+    public void draw(Graphics g) {
+        if(image != null) {
+            g.drawImage(image, position.x*EscapistGame.tile_size, position.y*EscapistGame.tile_size);
+        } else {
+            super.draw(g);
+        }
     }
     
     

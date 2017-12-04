@@ -9,7 +9,7 @@ import Entities.Building;
 import com.sun.javafx.geom.Vec2f;
 import functions.Callable;
 import java.awt.Font;
-import ld38.Ressources;
+import ld38.Resources;
 import ld38.Updater;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -39,23 +39,40 @@ public class ButtonAddBuilding extends Button {
         
         super.draw(g);
         
-        current_color = Color.white;
-        if(building.getLog_cost() > Ressources.getInstance().getLog()) {
-            current_color = Color.red;
-        }
-        font.drawString(pos.x + 10, pos.y + 25, "Log : " + building.getLog_cost(), current_color);
+        building.draw(g);
         
         current_color = Color.white;
-        if(building.getRock_cost() > Ressources.getInstance().getRock()) {
+        if(building.getLog_cost() > Resources.getInstance().getLog()) {
             current_color = Color.red;
         }
-        font.drawString(pos.x + 60, pos.y + 25, "Rock : " + building.getRock_cost(), current_color);
+        g.drawImage(Resources.getInstance().icon_log, pos.x+10, pos.y+28);
+        font.drawString(pos.x + 20, pos.y + 25, ""+building.getLog_cost(), current_color);
+        
+        current_color = Color.white;
+        if(building.getRock_cost() > Resources.getInstance().getRock()) {
+            current_color = Color.red;
+        }
+        g.drawImage(Resources.getInstance().icon_rock, pos.x+50, pos.y+28);
+        font.drawString(pos.x + 60, pos.y + 25, "" + building.getRock_cost(), current_color);
         
         current_color = Color.white;
         if(building.getRequiered_workers() > Updater.getInstance().getAvailablePop()) {
             current_color = Color.red;
         }
-        font.drawString(pos.x + 120, pos.y + 25, "Pop : " + building.getRequiered_workers(), current_color);
+        g.drawImage(Resources.getInstance().icon_workers, pos.x+90, pos.y+28);
+        font.drawString(pos.x + 100, pos.y + 25, "" + building.getRequiered_workers(), current_color);
+        
+        
+        current_color = Color.green;
+        g.drawImage(Resources.getInstance().icon_pop, pos.x+120, pos.y+18);
+        font.drawString(pos.x + 132, pos.y + 15, "+" + building.getPopulation_capability(), current_color);
+        g.drawImage(Resources.getInstance().icon_rock, pos.x+120, pos.y+33);
+        font.drawString(pos.x + 132, pos.y + 30, "+" + building.getRock_production(), current_color);
+        
+        g.drawImage(Resources.getInstance().icon_food, pos.x+160, pos.y+18);
+        font.drawString(pos.x + 172, pos.y + 15, "+" + building.getFood_production(), current_color);
+        g.drawImage(Resources.getInstance().icon_log, pos.x+160, pos.y+33);
+        font.drawString(pos.x + 172, pos.y + 30, "+" + building.getLog_production(), current_color);
         
     }
     

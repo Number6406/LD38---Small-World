@@ -7,8 +7,10 @@ package gui;
 
 import com.sun.javafx.geom.Vec2f;
 import functions.Callable;
+import ld38.EscapistGame;
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
 /**
@@ -60,7 +62,7 @@ public class Button {
     }
     
     public boolean isHovering() {
-        hovered = ((Mouse.getX() >= pos.x && Mouse.getX() <= pos.x+width) && (500-Mouse.getY() >= pos.y && 500-Mouse.getY() <= pos.y + height));
+        hovered = ((Mouse.getX() >= pos.x && Mouse.getX() < pos.x+width) && (EscapistGame.windowY-Mouse.getY() >= pos.y && EscapistGame.windowY-Mouse.getY() < pos.y + height));
         return hovered;
     }
     

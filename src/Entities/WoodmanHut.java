@@ -5,7 +5,13 @@
  */
 package Entities;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import ld38.EscapistGame;
 import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 
 /**
  *
@@ -13,8 +19,15 @@ import org.newdawn.slick.Color;
  */
 public class WoodmanHut extends Building {
     
+    private static Image image;
+    
     public WoodmanHut(int x, int y) {
         super(x, y);
+        try {
+            image = new Image("res/build_woodman.png");
+        } catch (SlickException ex) {
+            Logger.getLogger(WoodmanHut.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.color = Color.magenta;
         this.log_cost = 10;
         this.rock_cost = 0;
@@ -25,5 +38,13 @@ public class WoodmanHut extends Building {
         this.log_production = 30;
     }
     
+    @Override
+    public void draw(Graphics g) {
+        if(image != null) {
+            g.drawImage(image, position.x*EscapistGame.tile_size, position.y*EscapistGame.tile_size);
+        } else {
+            super.draw(g);
+        }
+    }
     
 }
