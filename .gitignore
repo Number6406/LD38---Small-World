@@ -8,4 +8,4 @@ dist/
 nbdist/
 .nb-gradle/
 lib/
-nbproject/project/.properties
+nbproject/project.properties
