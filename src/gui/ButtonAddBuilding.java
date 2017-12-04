@@ -6,7 +6,6 @@
 package gui;
 
 import Entities.Building;
-import com.sun.javafx.geom.Vec2f;
 import functions.Callable;
 import java.awt.Font;
 import ld38.Resources;
@@ -15,6 +14,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.TrueTypeFont;
+import org.newdawn.slick.geom.Vector2f;
 
 /**
  *
@@ -30,7 +30,7 @@ public class ButtonAddBuilding extends Button {
     
     private Building building;
     
-    public ButtonAddBuilding(Vec2f pos, int width, int height, Color background, Color hover, Color color, String text, Callable function, int cast_key, Building building) {
+    public ButtonAddBuilding(Vector2f pos, int width, int height, Color background, Color hover, Color color, String text, Callable function, int cast_key, Building building) {
         super(pos, width, height, background, hover, color, text, function, cast_key);
         this.building = building;
     }

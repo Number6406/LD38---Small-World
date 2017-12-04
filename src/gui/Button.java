@@ -5,13 +5,13 @@
  */
 package gui;
 
-import com.sun.javafx.geom.Vec2f;
 import functions.Callable;
 import ld38.EscapistGame;
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.geom.Vector2f;
 
 /**
  *
@@ -26,13 +26,13 @@ public class Button {
     protected boolean hovered;
     private int cast_key;
     
-    protected Vec2f pos;
+    protected Vector2f pos;
     protected int width;
     protected int height;
     
     protected Callable function;
     
-    public Button(Vec2f pos, int width, int height, Color background, Color hover, Color color, String text, Callable function, int cast_key) {
+    public Button(Vector2f pos, int width, int height, Color background, Color hover, Color color, String text, Callable function, int cast_key) {
         this.pos = pos;
         this.width = width;
         this.height = height;

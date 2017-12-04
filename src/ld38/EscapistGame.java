@@ -10,7 +10,6 @@ import Entities.Farm;
 import Entities.House;
 import Entities.Mine;
 import Entities.WoodmanHut;
-import com.sun.javafx.geom.Vec2f;
 import functions.DeleteBuilding;
 import functions.NewEscapist;
 import functions.NewHouse;
@@ -37,6 +36,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Vector2f;
 
 import world.World;
 
@@ -51,7 +51,7 @@ public class EscapistGame extends BasicGame {
 
     private World world;
 
-    private Vec2f mouse_select;
+    private Vector2f mouse_select;
 
     private List<Button> buttons;
 
@@ -92,7 +92,7 @@ public class EscapistGame extends BasicGame {
         Resources.getInstance().init();
         Updater.getInstance().init(world);
 
-        mouse_select = new Vec2f(25, 25);
+        mouse_select = new Vector2f(25, 25);
 
         model_house = new House(50, 0);
         model_farm = new Farm(50, 5);
@@ -100,22 +100,22 @@ public class EscapistGame extends BasicGame {
         model_woodmanhut = new WoodmanHut(50, 15);
         model_escapist = new Escapist(50, 22);
 
-        buttons.add(new ButtonAddBuilding(new Vec2f(500, 0), 200, 50, Color.darkGray, new Color(85, 85, 85), Color.white, "[1]House",
+        buttons.add(new ButtonAddBuilding(new Vector2f(500, 0), 200, 50, Color.darkGray, new Color(85, 85, 85), Color.white, "[1]House",
                 new NewHouse(mouse_select, world), Input.KEY_1, model_house));
-        buttons.add(new ButtonAddBuilding(new Vec2f(500, 50), 200, 50, Color.darkGray, new Color(85, 85, 85), Color.white, "[2]Farm",
+        buttons.add(new ButtonAddBuilding(new Vector2f(500, 50), 200, 50, Color.darkGray, new Color(85, 85, 85), Color.white, "[2]Farm",
                 new NewFarm(mouse_select, world), Input.KEY_2, model_farm));
-        buttons.add(new ButtonAddBuilding(new Vec2f(500, 100), 200, 50, Color.darkGray, new Color(85, 85, 85), Color.white, "[3]Mine",
+        buttons.add(new ButtonAddBuilding(new Vector2f(500, 100), 200, 50, Color.darkGray, new Color(85, 85, 85), Color.white, "[3]Mine",
                 new NewMine(mouse_select, world), Input.KEY_3, model_mine));
-        buttons.add(new ButtonAddBuilding(new Vec2f(500, 150), 200, 50, Color.darkGray, new Color(85, 85, 85), Color.white, "[4]Wood. Hut",
+        buttons.add(new ButtonAddBuilding(new Vector2f(500, 150), 200, 50, Color.darkGray, new Color(85, 85, 85), Color.white, "[4]Wood. Hut",
                 new NewWoodmanHut(mouse_select, world), Input.KEY_4, model_woodmanhut));
-        buttons.add(new ButtonAddBuilding(new Vec2f(500, 200), 200, 50, Color.darkGray, new Color(85, 85, 85), Color.white, "[5]Escapist",
+        buttons.add(new ButtonAddBuilding(new Vector2f(500, 200), 200, 50, Color.darkGray, new Color(85, 85, 85), Color.white, "[5]Escapist",
                 new NewEscapist(mouse_select, world), Input.KEY_5, model_escapist));
 
-        buttons.add(new Button(new Vec2f(500, 250), 200, 40, new Color(180, 0, 0), new Color(240, 36, 36), Color.white, "Delete Building",
+        buttons.add(new Button(new Vector2f(500, 250), 200, 40, new Color(180, 0, 0), new Color(240, 36, 36), Color.white, "Delete Building",
                 new DeleteBuilding(mouse_select, world), Input.KEY_DELETE));
-        buttons.add(new Button(new Vec2f(500, 450), 200, 40, Color.darkGray, new Color(85, 85, 85), Color.white, "[I] Info / Help",
+        buttons.add(new Button(new Vector2f(500, 450), 200, 40, Color.darkGray, new Color(85, 85, 85), Color.white, "[I] Info / Help",
                 new ShowInfo(), Input.KEY_I));
-        buttons.add(new Button(new Vec2f(500, 410), 200, 40, Color.darkGray, new Color(85, 85, 85), Color.white, "[P] Pause Game",
+        buttons.add(new Button(new Vector2f(500, 410), 200, 40, Color.darkGray, new Color(85, 85, 85), Color.white, "[P] Pause Game",
                 new PauseGame(), Input.KEY_P));
 
         game_info = false;

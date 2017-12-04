@@ -5,7 +5,6 @@
  */
 package Entities;
 
-import com.sun.javafx.geom.Vec2f;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import ld38.EscapistGame;

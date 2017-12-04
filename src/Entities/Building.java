@@ -5,11 +5,11 @@
  */
 package Entities;
 
-import com.sun.javafx.geom.Vec2f;
 import ld38.EscapistGame;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.geom.Vector2f;
 
 /**
  *
@@ -17,7 +17,7 @@ import org.newdawn.slick.Image;
  */
 public abstract class Building {
     
-    protected Vec2f position;
+    protected Vector2f position;
     protected Color color;
     
     protected int log_cost = 0;
@@ -31,7 +31,7 @@ public abstract class Building {
     protected int log_production = 0;
     
     public Building(int x, int y) {
-        position = new Vec2f(x,y);
+        position = new Vector2f(x,y);
     }
     
     public int getPopulation_capability() {

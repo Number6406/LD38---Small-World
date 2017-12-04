@@ -8,12 +8,12 @@ package functions;
 import Entities.Building;
 import Entities.Farm;
 import Entities.Mine;
-import com.sun.javafx.geom.Vec2f;
 import java.util.List;
 import ld38.EscapistGame;
 import ld38.Resources;
 import ld38.SoundBoard;
 import org.newdawn.slick.Color;
+import org.newdawn.slick.geom.Vector2f;
 import world.World;
 
 /**
@@ -22,10 +22,10 @@ import world.World;
  */
 public class NewMine extends Callable {
     
-    private Vec2f mouse_position;
+    private Vector2f mouse_position;
     private World world;
     
-    public NewMine(Vec2f mouse_position, World world) {
+    public NewMine(Vector2f mouse_position, World world) {
         super();
         this.mouse_position = mouse_position;
         this.world = world;

@@ -7,7 +7,6 @@ package world;
 
 import Entities.Building;
 import Entities.Escapist;
-import com.sun.javafx.geom.Vec2f;
 import gui.Notifier;
 import gui.Tiles;
 import static java.lang.Math.sqrt;
@@ -18,6 +17,7 @@ import ld38.Updater;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Vector2f;
 
 /**
  *
@@ -102,7 +102,7 @@ public class World {
         }
     }
     
-    public boolean destroyBuilding(Vec2f pos) {
+    public boolean destroyBuilding(Vector2f pos) {
         if(buildings[(int)pos.x][(int)pos.y] != null) {
             buildings[(int)pos.x][(int)pos.y] = null;
             SoundBoard.getInstance().play("destroy");
@@ -159,11 +159,11 @@ public class World {
         return count;
     }
     
-    public boolean isAccessible(Vec2f pos) {
+    public boolean isAccessible(Vector2f pos) {
         return (water_level < world_level[(int)pos.x][(int)pos.y] && buildings[(int)pos.x][(int)pos.y] == null);
     }
     
-    public boolean isBuilding(Vec2f pos) {
+    public boolean isBuilding(Vector2f pos) {
         return buildings[(int)pos.x][(int)pos.y] != null;
     }
     
@@ -269,15 +269,15 @@ public class World {
         return world_diameter;
     }
 
-    public boolean canPlaceWoodmansHut(Vec2f mouse_position) {
+    public boolean canPlaceWoodmansHut(Vector2f mouse_position) {
         return world_level[(int)mouse_position.x][(int)mouse_position.y] >= forest_level && world_level[(int)mouse_position.x][(int)mouse_position.y] < mountain_level;
     }
     
-    public boolean canPlaceMine(Vec2f mouse_position) {
+    public boolean canPlaceMine(Vector2f mouse_position) {
         return world_level[(int)mouse_position.x][(int)mouse_position.y] >= mountain_level && world_level[(int)mouse_position.x][(int)mouse_position.y] < snow_level;
     }
     
-    public boolean canPlaceFarm(Vec2f mouse_position) {
+    public boolean canPlaceFarm(Vector2f mouse_position) {
         return world_level[(int)mouse_position.x][(int)mouse_position.y] >= forest_level && world_level[(int)mouse_position.x][(int)mouse_position.y] < mountain_level;
     }
     
